@@ -2,6 +2,9 @@
 
 import * as React from "react"
 import { Menu, X } from "lucide-react"
+import { motion } from "motion/react"
+
+import { cn } from "@/lib/utils"
 
 import { AgencyLandingButton } from "./agency-landing-button"
 import { AgencyLandingLogo } from "./agency-landing-logo"
@@ -22,6 +25,15 @@ export function AgencyLandingNavbar() {
   const [open, setOpen] = React.useState(false)
   const toggleRef = React.useRef<HTMLButtonElement>(null)
   const menuId = React.useId()
+  const [scrolled, setScrolled] = React.useState(false)
+
+  // A stronger shadow and a slimmer bar once the page has scrolled.
+  React.useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24)
+    onScroll()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
 
   React.useEffect(() => {
     if (!open) return
@@ -36,10 +48,26 @@ export function AgencyLandingNavbar() {
   }, [open])
 
   return (
-    <header className="sticky top-3 z-40 px-3 sm:px-6">
-      <div className="mx-auto max-w-6xl rounded-full bg-agency-card/90 shadow-[0_1px_2px_rgb(0_0_0/0.05),0_8px_24px_-12px_rgb(0_0_0/0.2)] ring-1 ring-border/60 backdrop-blur-md">
-        <div className="flex h-14 items-center gap-6 pr-2 pl-4 sm:pl-5">
-          <a href="#" aria-label="Arcwell home" className="rounded-full outline-none focus-visible:ring-3 focus-visible:ring-agency-accent/40">
+    <motion.header
+      className="sticky top-3 z-40 px-3 sm:px-6"
+      initial={{ y: -24, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <div
+        className={cn(
+          "mx-auto rounded-full bg-agency-card/90 ring-1 ring-border/60 backdrop-blur-md transition-[max-width,box-shadow] duration-500",
+          scrolled
+            ? "max-w-5xl shadow-[0_1px_2px_rgb(0_0_0/0.06),0_14px_34px_-14px_rgb(0_0_0/0.3)]"
+            : "max-w-6xl shadow-[0_1px_2px_rgb(0_0_0/0.05),0_8px_24px_-12px_rgb(0_0_0/0.2)]",
+        )}
+      >
+        <div className={cn("flex items-center gap-6 pr-2 pl-4 transition-[height] duration-500 sm:pl-5", scrolled ? "h-13" : "h-14")}>
+          <a
+            href="#"
+            aria-label="Arcwell home"
+            className="rounded-full outline-none focus-visible:ring-3 focus-visible:ring-agency-accent/40"
+          >
             <AgencyLandingLogo />
           </a>
 
@@ -76,7 +104,11 @@ export function AgencyLandingNavbar() {
         </div>
       </div>
 
-      <div id={menuId} hidden={!open} className="mx-auto mt-2 max-w-6xl rounded-3xl bg-agency-card p-3 shadow-lg ring-1 ring-border/60 md:hidden">
+      <div
+        id={menuId}
+        hidden={!open}
+        className="mx-auto mt-2 max-w-6xl rounded-3xl bg-agency-card p-3 shadow-lg ring-1 ring-border/60 md:hidden"
+      >
         <nav aria-label="Main">
           <ul className="grid gap-1">
             {links.map((link) => (
@@ -96,6 +128,6 @@ export function AgencyLandingNavbar() {
           </AgencyLandingButton>
         </nav>
       </div>
-    </header>
+    </motion.header>
   )
 }

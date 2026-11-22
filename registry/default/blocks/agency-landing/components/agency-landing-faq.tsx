@@ -1,6 +1,7 @@
 import { ChevronDown } from "lucide-react"
 
 import { AgencyLandingButton, AgencyLandingEyebrow } from "./agency-landing-button"
+import { Reveal, RevealItem, RevealList } from "./agency-landing-motion"
 
 const faqs = [
   {
@@ -26,11 +27,16 @@ const faqs = [
   },
 ]
 
+/**
+ * FAQ items are native <details>. The `agency-faq` class (from the registry
+ * CSS) animates their height where the browser supports it; elsewhere they
+ * simply open.
+ */
 export function AgencyLandingFaq() {
   return (
     <section id="faq" aria-labelledby="faq-title" className="scroll-mt-24 pb-20 sm:pb-28">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:gap-16">
-        <div>
+        <Reveal>
           <AgencyLandingEyebrow align="start">FAQ</AgencyLandingEyebrow>
           <h2 id="faq-title" className="mt-6 text-3xl font-medium tracking-tight text-balance sm:text-5xl">
             Good to know before we talk
@@ -41,20 +47,25 @@ export function AgencyLandingFaq() {
           <AgencyLandingButton href="#contact" variant="secondary" className="mt-8">
             Ask a question
           </AgencyLandingButton>
-        </div>
-        <div className="divide-y">
+        </Reveal>
+        <RevealList as="div" className="divide-y">
           {faqs.map((faq, i) => (
-            <details key={faq.question} open={i === 0} className="group py-4">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 rounded-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-agency-accent/40 [&::-webkit-details-marker]:hidden">
-                {faq.question}
-                <span aria-hidden="true" className="grid size-6 shrink-0 place-items-center rounded-sm bg-agency-card shadow-sm ring-1 ring-border/70">
-                  <ChevronDown className="size-3.5 transition-transform group-open:rotate-180" />
-                </span>
-              </summary>
-              <p className="mt-3 pr-10 text-sm text-muted-foreground">{faq.answer}</p>
-            </details>
+            <RevealItem as="div" key={faq.question}>
+              <details open={i === 0} className="agency-faq group py-4">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 rounded-sm font-medium transition-colors outline-none hover:text-agency-accent focus-visible:ring-3 focus-visible:ring-agency-accent/40 [&::-webkit-details-marker]:hidden">
+                  {faq.question}
+                  <span
+                    aria-hidden="true"
+                    className="grid size-6 shrink-0 place-items-center rounded-sm bg-agency-card shadow-sm ring-1 ring-border/70 transition-colors group-open:bg-agency-accent group-open:text-white group-open:ring-agency-accent"
+                  >
+                    <ChevronDown className="size-3.5 transition-transform duration-300 group-open:rotate-180" />
+                  </span>
+                </summary>
+                <p className="mt-3 pr-10 text-sm text-muted-foreground">{faq.answer}</p>
+              </details>
+            </RevealItem>
           ))}
-        </div>
+        </RevealList>
       </div>
     </section>
   )

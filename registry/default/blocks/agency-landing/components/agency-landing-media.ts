@@ -12,7 +12,10 @@ export function portrait(id: string, size = 160) {
 }
 
 export const photos = {
-  meeting: { src: photo("1552664730-d307ca884978", 900, 1000), alt: "A team meeting in a bright office, with sticky notes on the wall" },
+  meeting: {
+    src: photo("1552664730-d307ca884978", 900, 1000),
+    alt: "A team meeting in a bright office, with sticky notes on the wall",
+  },
 }
 
 /** Faces next to the hero's "teams" line. */
