@@ -33,12 +33,13 @@ export function AgencyLandingProcess() {
           {steps.map((step, i) =>
             i === 0 ? (
               <RevealItem
+                touch
                 key={step.title}
                 className="group relative isolate flex min-h-80 flex-col justify-end overflow-hidden rounded-md p-5 text-white"
               >
                 <AgencyLandingArt
                   name="prism"
-                  className="absolute inset-0 -z-10 transition-transform duration-1000 ease-out group-hover:scale-110"
+                  className="absolute inset-0 -z-10 transition-transform duration-1000 ease-out group-hover:scale-110 group-data-active:scale-110"
                 />
                 <span aria-hidden="true" className="absolute inset-0 -z-10 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
                 <div className="flex items-end justify-between gap-4">
@@ -51,19 +52,20 @@ export function AgencyLandingProcess() {
               </RevealItem>
             ) : (
               <RevealItem
+                touch
                 key={step.title}
-                className="group relative flex min-h-80 flex-col justify-between overflow-hidden rounded-md border bg-agency-card p-5 transition-colors duration-500 hover:border-agency-accent/40"
+                className="group relative flex min-h-80 flex-col justify-between overflow-hidden rounded-md border bg-agency-card p-5 transition-colors duration-500 hover:border-agency-accent/40 data-active:border-agency-accent/40"
               >
                 {/* A wash of brand colour that rises from the bottom on hover. */}
                 <span
                   aria-hidden="true"
-                  className="absolute inset-x-0 bottom-0 h-0 bg-linear-to-t from-agency-accent/12 to-transparent transition-[height] duration-700 ease-out group-hover:h-full"
+                  className="absolute inset-x-0 bottom-0 h-0 bg-linear-to-t from-agency-accent/12 to-transparent transition-[height] duration-700 ease-out group-hover:h-full group-data-active:h-full"
                 />
                 <div className="relative">
                   <p className="text-xs text-muted-foreground">{step.when}</p>
                   <h3 className="mt-1 text-lg font-medium">{step.title}</h3>
                 </div>
-                <span className="relative self-end text-4xl font-medium tabular-nums transition-colors duration-500 group-hover:text-agency-accent">
+                <span className="relative self-end text-4xl font-medium tabular-nums transition-colors duration-500 group-hover:text-agency-accent group-data-active:text-agency-accent">
                   .0{i + 1}
                 </span>
               </RevealItem>

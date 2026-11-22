@@ -21,7 +21,10 @@ import { AgencyLandingTestimonials } from "./agency-landing-testimonials"
 export function AgencyLanding() {
   return (
     <AgencyLandingMotion>
-      <div className="flex min-h-svh flex-col bg-agency-surface text-foreground [--muted-foreground:var(--agency-muted)]">
+      <div
+        data-agency-landing=""
+        className="flex min-h-svh flex-col bg-agency-surface text-foreground [--muted-foreground:var(--agency-muted)]"
+      >
         <AgencyLandingNavbar />
         <main className="flex-1">
           <AgencyLandingHero />
