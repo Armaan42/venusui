@@ -41,8 +41,10 @@ const ink = (hex: string) => {
  */
 function PaintSwatchFan({ strips = STRIPS, onColorChange, className, ...props }: PaintSwatchFanProps) {
   const [open, setOpen] = React.useState(true)
-  const [picked, setPicked] = React.useState<[number, number]>([5, 2])
-  const [focus, setFocus] = React.useState<[number, number]>([5, 2])
+  // Start on the middle shade of the last strip, whatever the number of strips.
+  const start: [number, number] = [strips.length - 1, Math.floor((strips[strips.length - 1].length - 1) / 2)]
+  const [picked, setPicked] = React.useState<[number, number]>(start)
+  const [focus, setFocus] = React.useState<[number, number]>(start)
   const [copied, setCopied] = React.useState(false)
   const fan = React.useRef<HTMLDivElement>(null)
   const shade = strips[picked[0]][picked[1]]
@@ -56,7 +58,8 @@ function PaintSwatchFan({ strips = STRIPS, onColorChange, className, ...props }:
   }
 
   const move = (strip: number, index: number) => {
-    const target: [number, number] = [(strip + strips.length) % strips.length, Math.min(4, Math.max(0, index))]
+    const next = (strip + strips.length) % strips.length
+    const target: [number, number] = [next, Math.min(strips[next].length - 1, Math.max(0, index))]
     setFocus(target)
     fan.current?.querySelector<HTMLButtonElement>(`[data-shade="${target[0]}-${target[1]}"]`)?.focus()
   }
