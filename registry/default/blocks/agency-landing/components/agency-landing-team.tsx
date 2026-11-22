@@ -59,7 +59,10 @@ export function AgencyLandingTeam() {
       <RevealList className="mx-auto mt-14 grid max-w-6xl grid-cols-2 items-start gap-3 px-4 sm:grid-cols-3 sm:px-6 lg:grid-cols-5">
         {people.map((person) => (
           <RevealItem key={person.name} className={person.offset}>
-            <div className="group rounded-md bg-agency-card p-2 shadow-[0_18px_40px_-24px_rgb(0_0_0/0.35)] transition-[translate,rotate,box-shadow] duration-500 hover:-translate-y-2 hover:-rotate-1 hover:shadow-[0_28px_50px_-24px_rgb(0_0_0/0.45)]">
+            <div
+              data-touch=""
+              className="group rounded-md bg-agency-card p-2 shadow-[0_18px_40px_-24px_rgb(0_0_0/0.35)] transition-[translate,rotate,box-shadow] duration-500 hover:-translate-y-2 hover:-rotate-1 hover:shadow-[0_28px_50px_-24px_rgb(0_0_0/0.45)] data-active:-translate-y-2 data-active:-rotate-1 data-active:shadow-[0_28px_50px_-24px_rgb(0_0_0/0.45)]"
+            >
               <div className="overflow-hidden rounded-sm">
                 <img
                   src={portrait(person.photo, 480)}
@@ -67,7 +70,7 @@ export function AgencyLandingTeam() {
                   width={480}
                   height={480}
                   loading="lazy"
-                  className="aspect-[5/6] w-full bg-muted object-cover grayscale-[35%] transition-[scale,filter] duration-700 group-hover:scale-105 group-hover:grayscale-0"
+                  className="aspect-[5/6] w-full bg-muted object-cover grayscale-[35%] transition-[scale,filter] duration-700 group-hover:scale-105 group-data-active:scale-105 group-hover:grayscale-0 group-data-active:grayscale-0"
                 />
               </div>
               <div className="flex items-start justify-between gap-2 px-1.5 pt-3 pb-1">
@@ -80,7 +83,7 @@ export function AgencyLandingTeam() {
                   aria-label={`${person.name}'s profile`}
                   className={cn(
                     "grid size-7 shrink-0 place-items-center rounded-full bg-agency-surface text-muted-foreground transition-colors outline-none",
-                    "group-hover:bg-agency-accent group-hover:text-white hover:text-foreground focus-visible:ring-3 focus-visible:ring-agency-accent/40",
+                    "group-hover:bg-agency-accent group-data-active:bg-agency-accent group-hover:text-white group-data-active:text-white hover:text-foreground focus-visible:ring-3 focus-visible:ring-agency-accent/40",
                   )}
                 >
                   <ArrowUpRight aria-hidden="true" className="size-3.5" />

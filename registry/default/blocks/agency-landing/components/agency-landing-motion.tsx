@@ -22,7 +22,34 @@ const EASE = [0.22, 1, 0.36, 1] as const
 
 /** Wrap the page once so every animation respects reduced motion. */
 export function AgencyLandingMotion({ children }: { children: React.ReactNode }) {
-  return <MotionConfig reducedMotion="user">{children}</MotionConfig>
+  return (
+    <MotionConfig reducedMotion="user">
+      {children}
+      <TouchActive />
+    </MotionConfig>
+  )
+}
+
+/**
+ * Touch screens can't hover, so on them each card marked `data-touch` gets a
+ * `data-active` attribute while it crosses the middle of the screen. The
+ * cards style `group-data-active:` exactly like `group-hover:`, so phones see
+ * the same effects as you scroll. Does nothing on devices with a mouse.
+ */
+function TouchActive() {
+  React.useEffect(() => {
+    if (window.matchMedia("(hover: hover)").matches) return
+    const cards = document.querySelectorAll<HTMLElement>("[data-agency-landing] [data-touch]")
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) entry.target.toggleAttribute("data-active", entry.isIntersecting)
+      },
+      { rootMargin: "-38% 0px -38% 0px" },
+    )
+    cards.forEach((card) => observer.observe(card))
+    return () => observer.disconnect()
+  }, [])
+  return null
 }
 
 /** Fades and lifts its content in the first time it scrolls into view. */
@@ -88,14 +115,17 @@ export function RevealItem({
   children,
   className,
   as = "li",
+  touch = false,
 }: {
   children: React.ReactNode
   className?: string
   as?: "li" | "div" | "figure"
+  /** Play this card's hover effects on touch screens when it reaches the middle of the screen. */
+  touch?: boolean
 }) {
   const Tag = motion[as]
   return (
-    <Tag className={className} variants={itemVariants}>
+    <Tag className={className} variants={itemVariants} data-touch={touch ? "" : undefined}>
       {children}
     </Tag>
   )

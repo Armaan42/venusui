@@ -79,6 +79,7 @@ export function AgencyLandingProjects() {
             {column.map((project) => (
               <RevealItem key={project.name}>
                 <a
+                  data-touch=""
                   href="#"
                   className={cn(
                     "group relative isolate flex items-end overflow-hidden rounded-md p-4 text-white outline-none focus-visible:ring-3 focus-visible:ring-agency-accent/40",
@@ -87,19 +88,19 @@ export function AgencyLandingProjects() {
                 >
                   <AgencyLandingArt
                     name={project.art}
-                    className="absolute inset-0 -z-10 transition-transform duration-1000 ease-out group-hover:scale-110"
+                    className="absolute inset-0 -z-10 transition-transform duration-1000 ease-out group-hover:scale-110 group-data-active:scale-110"
                   />
                   <span
                     aria-hidden="true"
-                    className="absolute inset-0 -z-10 bg-linear-to-t from-black/75 via-black/15 to-transparent transition-opacity duration-500 group-hover:opacity-90"
+                    className="absolute inset-0 -z-10 bg-linear-to-t from-black/75 via-black/15 to-transparent transition-opacity duration-500 group-hover:opacity-90 group-data-active:opacity-90"
                   />
                   <span
                     aria-hidden="true"
-                    className="absolute top-3 right-3 grid size-9 scale-75 place-items-center rounded-full bg-white text-neutral-900 opacity-0 transition-[opacity,scale] duration-300 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100"
+                    className="absolute top-3 right-3 grid size-9 scale-75 place-items-center rounded-full bg-white text-neutral-900 opacity-0 transition-[opacity,scale] duration-300 group-hover:scale-100 group-data-active:scale-100 group-hover:opacity-100 group-data-active:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100"
                   >
                     <ArrowUpRight className="size-4" />
                   </span>
-                  <span className="flex w-full items-end justify-between gap-4 transition-transform duration-500 group-hover:-translate-y-1">
+                  <span className="flex w-full items-end justify-between gap-4 transition-transform duration-500 group-hover:-translate-y-1 group-data-active:-translate-y-1">
                     <span className="text-lg leading-tight font-medium">{project.name}</span>
                     <span className="max-w-[60%] text-right text-xs text-white/85">{project.about}</span>
                   </span>
