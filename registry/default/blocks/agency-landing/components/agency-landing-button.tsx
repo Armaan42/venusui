@@ -45,7 +45,12 @@ export function AgencyLandingButton({
 /** The small label above a section heading: a star between two short lines. */
 export function AgencyLandingEyebrow({ children, align = "center" }: { children: React.ReactNode; align?: "center" | "start" }) {
   return (
-    <p className={cn("flex items-center gap-3 text-xs font-medium tracking-wide text-foreground/80 uppercase", align === "center" && "justify-center")}>
+    <p
+      className={cn(
+        "flex items-center gap-3 text-xs font-medium tracking-wide text-foreground/80 uppercase",
+        align === "center" && "justify-center",
+      )}
+    >
       <span aria-hidden="true" className="h-px w-8 bg-border" />
       <span className="inline-flex items-center gap-1.5">
         <svg viewBox="0 0 16 16" aria-hidden="true" className="size-3 fill-agency-accent">

@@ -20,7 +20,10 @@ export function AgencyLandingFooter() {
           <ul className="mt-5 flex flex-wrap gap-2 text-sm">
             {social.map((item) => (
               <li key={item}>
-                <a href="#" className="inline-flex h-8 items-center rounded-full bg-agency-surface px-3 text-muted-foreground hover:text-foreground">
+                <a
+                  href="#"
+                  className="inline-flex h-8 items-center rounded-full bg-agency-surface px-3 text-muted-foreground hover:text-foreground"
+                >
                   {item}
                 </a>
               </li>

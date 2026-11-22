@@ -3,6 +3,7 @@ import { AgencyLandingCta } from "./agency-landing-cta"
 import { AgencyLandingFaq } from "./agency-landing-faq"
 import { AgencyLandingFooter } from "./agency-landing-footer"
 import { AgencyLandingHero } from "./agency-landing-hero"
+import { AgencyLandingMotion } from "./agency-landing-motion"
 import { AgencyLandingNavbar } from "./agency-landing-navbar"
 import { AgencyLandingProcess } from "./agency-landing-process"
 import { AgencyLandingProjects } from "./agency-landing-projects"
@@ -19,22 +20,24 @@ import { AgencyLandingTestimonials } from "./agency-landing-testimonials"
  */
 export function AgencyLanding() {
   return (
-    <div className="flex min-h-svh flex-col bg-agency-surface text-foreground [--muted-foreground:var(--agency-muted)]">
-      <AgencyLandingNavbar />
-      <main className="flex-1">
-        <AgencyLandingHero />
-        <AgencyLandingAbout />
-        <AgencyLandingServices />
-        <AgencyLandingProcess />
-        <AgencyLandingProjects />
-        <AgencyLandingResults />
-        <AgencyLandingTeam />
-        <AgencyLandingStats />
-        <AgencyLandingTestimonials />
-        <AgencyLandingFaq />
-        <AgencyLandingCta />
-      </main>
-      <AgencyLandingFooter />
-    </div>
+    <AgencyLandingMotion>
+      <div className="flex min-h-svh flex-col bg-agency-surface text-foreground [--muted-foreground:var(--agency-muted)]">
+        <AgencyLandingNavbar />
+        <main className="flex-1">
+          <AgencyLandingHero />
+          <AgencyLandingAbout />
+          <AgencyLandingServices />
+          <AgencyLandingProcess />
+          <AgencyLandingProjects />
+          <AgencyLandingResults />
+          <AgencyLandingTeam />
+          <AgencyLandingStats />
+          <AgencyLandingTestimonials />
+          <AgencyLandingFaq />
+          <AgencyLandingCta />
+        </main>
+        <AgencyLandingFooter />
+      </div>
+    </AgencyLandingMotion>
   )
 }

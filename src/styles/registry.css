@@ -4,6 +4,10 @@
   --color-agency-surface: var(--agency-surface);
   --color-agency-card: var(--agency-card);
   --animate-agency-marquee: agency-marquee 28s linear infinite;
+  --animate-agency-wheel: agency-wheel 140s linear infinite;
+  --animate-agency-flip: agency-flip 18s ease-in-out infinite;
+  --animate-agency-drift: agency-drift 14s ease-in-out infinite alternate;
+  --animate-agency-glow: agency-glow 16s ease-in-out infinite alternate;
   --animate-aquarium-sway: aquarium-sway 4s ease-in-out infinite alternate;
   --animate-aquarium-bubble: aquarium-bubble 3s ease-in infinite;
   --animate-aurora: aurora 18s ease-in-out infinite alternate;
@@ -115,6 +119,59 @@
   }
   to {
     transform: translateX(-50%);
+  }
+}
+@keyframes agency-wheel {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+@keyframes agency-flip {
+  0%, 58% {
+    transform: rotateY(0deg);
+  }
+  64%, 80% {
+    transform: rotateY(180deg);
+  }
+  86%, 100% {
+    transform: rotateY(360deg);
+  }
+}
+@keyframes agency-drift {
+  from {
+    transform: scale(1.05) translate(0, 0);
+  }
+  to {
+    transform: scale(1.25) translate(-6%, 4%);
+  }
+}
+@keyframes agency-glow {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(18%, 12%) scale(1.2);
+  }
+}
+@layer components {
+  .agency-faq {
+    interpolate-size: allow-keywords;
+  }
+  .agency-faq::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition: block-size 0.35s ease, content-visibility 0.35s allow-discrete;
+  }
+  .agency-faq[open]::details-content {
+    block-size: auto;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .agency-faq::details-content {
+      transition: none;
+    }
   }
 }
 @keyframes aquarium-sway {

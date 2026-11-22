@@ -2,8 +2,15 @@ import { Star } from "lucide-react"
 
 import { AgencyLandingButton, AgencyLandingEyebrow } from "./agency-landing-button"
 import { portrait } from "./agency-landing-media"
+import { CountUp, Reveal, RevealItem, RevealList } from "./agency-landing-motion"
 
-type Review = { name: string; role: string; photo: string; stars: number; quote: string }
+type Review = {
+  name: string
+  role: string
+  photo: string
+  stars: number
+  quote: string
+}
 
 /** Made-up client reviews, in three columns. */
 const columns: Review[][] = [
@@ -57,11 +64,21 @@ const columns: Review[][] = [
   ],
 ]
 
+const cardClass =
+  "flex min-h-64 flex-col justify-between rounded-md bg-agency-card p-5 transition-[translate,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-[0_18px_40px_-24px_rgb(0_0_0/0.35)]"
+
 function ReviewCard({ review }: { review: Review }) {
   return (
-    <figure className="flex min-h-64 flex-col justify-between rounded-md bg-agency-card p-5">
+    <RevealItem as="figure" className={cardClass}>
       <figcaption className="flex items-center gap-3">
-        <img src={portrait(review.photo, 96)} alt="" width={40} height={40} loading="lazy" className="size-10 rounded-sm bg-muted object-cover" />
+        <img
+          src={portrait(review.photo, 96)}
+          alt=""
+          width={40}
+          height={40}
+          loading="lazy"
+          className="size-10 rounded-sm bg-muted object-cover"
+        />
         <span className="text-sm">
           <span className="block font-medium">{review.name}</span>
           <span className="text-xs text-muted-foreground">{review.role}</span>
@@ -70,19 +87,23 @@ function ReviewCard({ review }: { review: Review }) {
       <div className="mt-10">
         <p role="img" className="flex gap-0.5" aria-label={`${review.stars} out of 5 stars`}>
           {Array.from({ length: 5 }, (_, i) => (
-            <Star key={i} aria-hidden="true" className={i < review.stars ? "size-4 fill-foreground text-foreground" : "size-4 fill-border text-border"} />
+            <Star
+              key={i}
+              aria-hidden="true"
+              className={i < review.stars ? "size-4 fill-foreground text-foreground" : "size-4 fill-border text-border"}
+            />
           ))}
         </p>
         <blockquote className="mt-3 text-sm text-pretty text-muted-foreground">&ldquo;{review.quote}&rdquo;</blockquote>
       </div>
-    </figure>
+    </RevealItem>
   )
 }
 
 export function AgencyLandingTestimonials() {
   return (
     <section id="testimonials" aria-labelledby="testimonials-title" className="scroll-mt-24 pb-20 sm:pb-28">
-      <div className="mx-auto max-w-6xl px-4 text-center sm:px-6">
+      <Reveal className="mx-auto max-w-6xl px-4 text-center sm:px-6">
         <AgencyLandingEyebrow>Reviews</AgencyLandingEyebrow>
         <h2 id="testimonials-title" className="mt-6 text-3xl font-medium tracking-tight text-balance sm:text-5xl">
           What clients say once the work is live
@@ -93,20 +114,21 @@ export function AgencyLandingTestimonials() {
         <AgencyLandingButton href="#contact" variant="secondary" className="mt-8">
           Become the next one
         </AgencyLandingButton>
-      </div>
+      </Reveal>
 
       <div className="mx-auto mt-14 grid max-w-6xl items-start gap-3 px-4 sm:px-6 md:grid-cols-3">
-        <div className="grid gap-3 md:mt-24">
+        <RevealList as="div" className="grid gap-3 md:mt-24">
           {columns[0].map((review) => (
             <ReviewCard key={review.name} review={review} />
           ))}
-        </div>
-        <div className="grid gap-3">
+        </RevealList>
+        <RevealList as="div" className="grid gap-3">
           <ReviewCard review={columns[1][0]} />
-          <div className="flex items-center justify-between gap-4 rounded-md bg-agency-card p-5">
+          <RevealItem as="div" className="flex items-center justify-between gap-4 rounded-md bg-agency-card p-5">
             <div>
               <p className="text-4xl font-medium tracking-tight">
-                4.9<span className="text-base text-muted-foreground">/5</span>
+                <CountUp value={4.9} decimals={1} />
+                <span className="text-base text-muted-foreground">/5</span>
               </p>
               <p className="text-xs text-muted-foreground">Average rating</p>
             </div>
@@ -118,14 +140,14 @@ export function AgencyLandingTestimonials() {
               </div>
               <p className="mt-1 text-xs text-muted-foreground">From 120 client reviews</p>
             </div>
-          </div>
+          </RevealItem>
           <ReviewCard review={columns[1][1]} />
-        </div>
-        <div className="grid gap-3 md:mt-24">
+        </RevealList>
+        <RevealList as="div" className="grid gap-3 md:mt-24">
           {columns[2].map((review) => (
             <ReviewCard key={review.name} review={review} />
           ))}
-        </div>
+        </RevealList>
       </div>
     </section>
   )
