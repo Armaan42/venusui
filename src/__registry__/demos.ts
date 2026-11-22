@@ -6,6 +6,7 @@ export type DemoLoader = () => Promise<{ default: ComponentType }>
 export const demos: Record<string, DemoLoader> = {
   "abacus": () => import("@/registry/default/examples/abacus-demo"),
   "accordion-smooth": () => import("@/registry/default/examples/accordion-smooth-demo"),
+  "agency-landing": () => import("@/registry/default/examples/agency-landing-demo"),
   "analog-clock": () => import("@/registry/default/examples/analog-clock-demo"),
   "animated-card": () => import("@/registry/default/examples/animated-card-demo"),
   "animated-tabs": () => import("@/registry/default/examples/animated-tabs-demo"),

@@ -3,6 +3,7 @@ import type { RegistryItemDefinition } from "./types.ts"
 
 import item_abacus from "./items/abacus.ts"
 import item_accordion_smooth from "./items/accordion-smooth.ts"
+import item_agency_landing from "./items/agency-landing.ts"
 import item_analog_clock from "./items/analog-clock.ts"
 import item_animated_card from "./items/animated-card.ts"
 import item_animated_tabs from "./items/animated-tabs.ts"
@@ -268,6 +269,7 @@ import item_zoetrope from "./items/zoetrope.ts"
 export const itemDefinitions: RegistryItemDefinition[] = [
   item_abacus,
   item_accordion_smooth,
+  item_agency_landing,
   item_analog_clock,
   item_animated_card,
   item_animated_tabs,
