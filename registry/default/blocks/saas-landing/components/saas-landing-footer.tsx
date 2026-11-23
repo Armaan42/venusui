@@ -22,8 +22,8 @@ export function SaasLandingFooter() {
 
   return (
     <footer className="border-t bg-muted/30">
-      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,2fr)]">
+      <div className="mx-auto max-w-7xl px-6 pt-20 pb-12 sm:pt-24 lg:px-8">
+        <div className="grid gap-16 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,2fr)] lg:gap-24">
           <div className="max-w-sm">
             <SaasLandingLogo />
             <p className="mt-4 text-sm leading-6 text-muted-foreground">
@@ -45,7 +45,7 @@ export function SaasLandingFooter() {
                 <label htmlFor={emailId} className="text-sm font-medium">
                   The monthly product memo
                 </label>
-                <div className="mt-2 flex gap-2">
+                <div className="mt-3 flex gap-2">
                   <Input id={emailId} type="email" name="email" required autoComplete="email" placeholder="you@company.com" />
                   <Button type="submit">Subscribe</Button>
                 </div>
@@ -53,11 +53,11 @@ export function SaasLandingFooter() {
             )}
           </div>
 
-          <nav aria-label="Footer" className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+          <nav aria-label="Footer" className="grid grid-cols-2 gap-10 sm:grid-cols-4">
             {columns.map((column) => (
               <div key={column.title}>
                 <h3 className="text-sm font-medium">{column.title}</h3>
-                <ul className="mt-4 space-y-3">
+                <ul className="mt-5 space-y-3.5">
                   {column.links.map((link) => (
                     <li key={link}>
                       <a href="#" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
@@ -76,7 +76,7 @@ export function SaasLandingFooter() {
           </nav>
         </div>
 
-        <div className="mt-14 flex flex-col gap-4 border-t pt-8 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-20 flex flex-col gap-4 border-t pt-8 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <p>© 2026 Pulsewise, Inc.</p>
             <a href="#" className="inline-flex items-center gap-2 hover:text-foreground">

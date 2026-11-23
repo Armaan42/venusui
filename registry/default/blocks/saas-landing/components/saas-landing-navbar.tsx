@@ -3,6 +3,8 @@
 import * as React from "react"
 import { Menu, X } from "lucide-react"
 
+import { cn } from "@/lib/utils"
+
 import { Button } from "@/components/ui/button"
 
 import { SaasLandingLogo } from "./saas-landing-logo"
@@ -23,6 +25,15 @@ export function SaasLandingNavbar() {
   const [open, setOpen] = React.useState(false)
   const toggleRef = React.useRef<HTMLButtonElement>(null)
   const menuId = React.useId()
+  const [scrolled, setScrolled] = React.useState(false)
+
+  // A border and soft shadow appear once the page has scrolled.
+  React.useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12)
+    onScroll()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
 
   React.useEffect(() => {
     if (!open) return
@@ -37,13 +48,18 @@ export function SaasLandingNavbar() {
   }, [open])
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-lg supports-[backdrop-filter]:bg-background/70">
-      <div className="mx-auto flex h-16 max-w-6xl items-center gap-8 px-4 sm:px-6">
+    <header
+      className={cn(
+        "sticky top-0 z-40 border-b backdrop-blur-lg transition-[background-color,border-color,box-shadow] duration-300",
+        scrolled ? "border-border/60 bg-background/80 shadow-[0_8px_30px_-16px_rgb(0_0_0/0.18)]" : "border-transparent bg-background/0",
+      )}
+    >
+      <div className="mx-auto flex h-18 max-w-7xl items-center gap-10 px-6 lg:px-8">
         <a href="#" aria-label="Pulsewise home" className="rounded-md outline-none focus-visible:ring-3 focus-visible:ring-ring/50">
           <SaasLandingLogo />
         </a>
 
-        <nav aria-label="Main" className="hidden md:block">
+        <nav aria-label="Main" className="hidden md:mx-auto md:block">
           <ul className="flex items-center gap-1">
             {links.map((link) => (
               <li key={link.label}>
@@ -58,11 +74,11 @@ export function SaasLandingNavbar() {
           </ul>
         </nav>
 
-        <div className="ml-auto hidden items-center gap-2 md:flex">
+        <div className="hidden items-center gap-2 md:flex">
           <Button variant="ghost" size="sm" asChild>
             <a href="#">Sign in</a>
           </Button>
-          <Button size="sm" asChild>
+          <Button size="sm" className="rounded-full px-4" asChild>
             <a href="#pricing">Start free trial</a>
           </Button>
         </div>
@@ -83,7 +99,7 @@ export function SaasLandingNavbar() {
       </div>
 
       <div id={menuId} hidden={!open} className="border-t bg-background md:hidden">
-        <nav aria-label="Main" className="mx-auto max-w-6xl px-4 py-3 sm:px-6">
+        <nav aria-label="Main" className="mx-auto max-w-7xl px-6 py-4">
           <ul className="grid gap-1">
             {links.map((link) => (
               <li key={link.label}>
