@@ -51,7 +51,10 @@ export function SaasLandingNavbar() {
     <header
       className={cn(
         "sticky top-0 z-40 border-b backdrop-blur-lg transition-[background-color,border-color,box-shadow] duration-300",
-        scrolled ? "border-border/60 bg-background/80 shadow-[0_8px_30px_-16px_rgb(0_0_0/0.18)]" : "border-transparent bg-background/0",
+        scrolled
+          ? "border-border/60 bg-background/80 shadow-[0_8px_30px_-16px_rgb(0_0_0/0.18)]"
+          : // Over the dark hero at the top of the page, use the dark colour tokens so the links read in white.
+            "dark border-transparent bg-transparent text-foreground",
       )}
     >
       <div className="mx-auto flex h-18 max-w-7xl items-center gap-10 px-6 lg:px-8">

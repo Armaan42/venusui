@@ -23,7 +23,7 @@ export default defineItem({
   type: "registry:block",
   title: "SaaS Landing",
   description:
-    "A spacious, animated marketing site for a product analytics startup: a product dashboard that settles into place, feature spotlights with live mockups, a customer story, pricing, FAQ and footer.",
+    "A spacious, animated marketing site for a product analytics startup: a dark, glowing hero whose dashboard settles into place, feature spotlights with live mockups, a customer story, pricing, FAQ and footer.",
   version: "0.3.0",
   releasedAt: "2026-11-12",
   categories: ["templates"],
@@ -36,6 +36,8 @@ export default defineItem({
       "animate-saas-marquee": "saas-marquee 40s linear infinite",
       "animate-saas-marquee-slow": "saas-marquee 70s linear infinite",
       "animate-saas-marquee-reverse": "saas-marquee 70s linear infinite reverse",
+      "animate-saas-beam": "saas-beam 8s linear infinite",
+      "animate-saas-glow": "saas-glow 8s ease-in-out infinite alternate",
     },
     light: { "saas-primary": "oklch(0.511 0.262 276.966)", "saas-accent": "oklch(0.596 0.145 163.225)" },
     dark: { "saas-primary": "oklch(0.673 0.182 276.935)", "saas-accent": "oklch(0.765 0.177 163.223)" },
@@ -44,6 +46,16 @@ export default defineItem({
     "@keyframes saas-marquee": {
       from: { transform: "translateX(0)" },
       to: { transform: "translateX(-50%)" },
+    },
+    // A streak of light travelling down a grid line in the hero.
+    "@keyframes saas-beam": {
+      from: { transform: "translateY(0)" },
+      to: { transform: "translateY(calc(100vh + 24rem))" },
+    },
+    // The glow behind the hero dashboard breathes slowly.
+    "@keyframes saas-glow": {
+      from: { opacity: "0.55", scale: "0.95" },
+      to: { opacity: "1", scale: "1.05" },
     },
     // FAQ answers slide open where the browser can animate to `auto` height.
     "@layer saas-landing": {
@@ -88,7 +100,7 @@ export default defineItem({
       "Brand colors are `--saas-primary` (indigo) and `--saas-accent` (emerald) in your `globals.css`, with lighter values for dark mode. Change them there; everything else follows your theme.",
     ],
     accessibility: [
-      "Every animation follows the visitor’s reduced-motion setting: sections appear without moving, figures show their final value, and the logo and testimonial strips stand still. Repeated copies in the strips are hidden from screen readers.",
+      "Every animation follows the visitor’s reduced-motion setting: sections appear without moving, figures show their final value, and the logo and testimonial strips, the hero's light beams and its glow stand still. Repeated copies in the strips are hidden from screen readers.",
       "One `h1` in the hero; every section is labelled by its own `h2`.",
       "The navbar collapses into a disclosure menu on small screens that closes on Escape and returns focus to its toggle.",
       "The dashboard and feature mockups are announced as one image with a text description, not as dozens of numbers.",
