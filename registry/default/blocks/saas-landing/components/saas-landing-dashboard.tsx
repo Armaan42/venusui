@@ -61,7 +61,11 @@ const nav = [
  * stays sharp and follows the theme; replace it with a real screenshot if
  * you prefer. Screen readers get one description instead of the details.
  */
-export function SaasLandingDashboard({ className }: { className?: string }) {
+/**
+ * `onDark` picks colours for a dark background explicitly, for when the dashboard sits on a
+ * permanently dark section (like the hero) whatever the page's own theme is.
+ */
+export function SaasLandingDashboard({ className, onDark = false }: { className?: string; onDark?: boolean }) {
   return (
     <div
       role="img"
@@ -84,7 +88,14 @@ export function SaasLandingDashboard({ className }: { className?: string }) {
         {/* A picture of the app's sidebar, not this page's, so no <aside> landmark. */}
         <div className="hidden flex-col gap-1 border-r bg-muted/20 p-3 md:flex">
           <div className="mb-2 flex items-center gap-2 rounded-md border bg-background px-2 py-1.5 text-xs font-medium">
-            <span className="grid size-5 place-items-center rounded bg-saas-accent text-[10px] font-semibold text-white">A</span>
+            <span
+              className={cn(
+                "grid size-5 place-items-center rounded bg-saas-accent text-[10px] font-semibold",
+                onDark ? "text-neutral-950" : "text-white",
+              )}
+            >
+              A
+            </span>
             Halcyon Inc.
             <ChevronDown className="ml-auto size-3.5 text-muted-foreground" />
           </div>
@@ -129,7 +140,13 @@ export function SaasLandingDashboard({ className }: { className?: string }) {
                   <p
                     className={cn(
                       "mt-0.5 inline-flex items-center gap-1 text-[11px] font-medium tabular-nums",
-                      positive ? "text-emerald-700 dark:text-emerald-400" : "text-red-600 dark:text-red-400",
+                      positive
+                        ? onDark
+                          ? "text-emerald-400"
+                          : "text-emerald-700 dark:text-emerald-400"
+                        : onDark
+                          ? "text-red-400"
+                          : "text-red-600 dark:text-red-400",
                     )}
                   >
                     <Trend className="size-3" />
