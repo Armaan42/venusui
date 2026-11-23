@@ -26,7 +26,7 @@ export default defineItem({
   type: "registry:block",
   title: "Agency Landing",
   description:
-    "A complete, animated site for a digital agency: a hero with tilted work cards, about, services, process, projects, client results, team, reviews, FAQ and contact.",
+    "A complete, animated site for a digital agency: a hero with tilted work cards, about, services, process, projects, client results, team, reviews, FAQ and a contact section with a project enquiry form.",
   version: "0.2.0",
   releasedAt: "2026-11-22",
   categories: ["templates"],
@@ -40,7 +40,6 @@ export default defineItem({
       "animate-agency-wheel": "agency-wheel 140s linear infinite",
       "animate-agency-flip": "agency-flip 18s ease-in-out infinite",
       "animate-agency-drift": "agency-drift 14s ease-in-out infinite alternate",
-      "animate-agency-glow": "agency-glow 16s ease-in-out infinite alternate",
     },
     light: {
       "agency-accent": "oklch(0.56 0.24 290)",
@@ -74,10 +73,6 @@ export default defineItem({
     "@keyframes agency-drift": {
       from: { transform: "scale(1.05) translate(0, 0)" },
       to: { transform: "scale(1.25) translate(-6%, 4%)" },
-    },
-    "@keyframes agency-glow": {
-      from: { transform: "translate(0, 0) scale(1)" },
-      to: { transform: "translate(18%, 12%) scale(1.2)" },
     },
     // FAQ answers slide open where the browser can animate to `auto` height.
     "@layer components": {
@@ -116,6 +111,8 @@ export default defineItem({
     customization: [
       "Render `<AgencyLanding />` from `app/page.tsx`, or render single sections such as `<AgencyLandingServices />` on other pages.",
       "Animations live in `agency-landing-motion.tsx`: `Reveal` and `RevealList` for scroll-in, `CountUp` for figures, `RevealWords` for the headline and `HeroWheel` for the turning, flipping cards. Tune the easing and timings there. If you render a section on its own, wrap it in `<AgencyLandingMotion>` so it follows reduced motion.",
+      "The enquiry form in `agency-landing-cta.tsx` only pretends to send. Replace the body of `send()` with a call to your email service or form backend; the form already collects name, email, services, budget and message.",
+      "Hover effects: service cards swap their artwork for what's included, the open process card follows the pointer, and the team card under the pointer comes forward while the others blur. On touch screens these follow the card in the middle of the screen or the one you tap.",
       "Arcwell, its clients, its people and every figure on the page are made up. Change the name and mark in `agency-landing-logo.tsx`, then the copy and numbers in each section file.",
       "The abstract artwork is drawn with CSS gradients in `agency-landing-art.tsx`. Replace an `<AgencyLandingArt>` with an `<img>` of your own work wherever you have one.",
       "Client names are plain wordmarks. Replace them with your clients’ logos once you have permission to show them.",
@@ -127,10 +124,11 @@ export default defineItem({
       "One `h1` in the hero; every section is labelled by its own `h2`.",
       "The navbar collapses into a disclosure menu on small screens that closes on Escape and returns focus to its toggle.",
       "The tilted cards and the artwork are decorative and hidden from screen readers; the services section lists the same things as text.",
-      "Every animation follows the visitor’s reduced-motion setting: sections appear without moving, figures show their final value, and the strip, badge, card wheel and glows stand still. The repeated half of the client strip is hidden from screen readers.",
+      "Every animation follows the visitor’s reduced-motion setting: sections appear without moving, figures show their final value, and the strip, badge and card wheel stand still. The repeated half of the client strip is hidden from screen readers.",
       "Counting figures are hidden from screen readers while they count; the final value is always available as text.",
       "Star ratings are announced as “5 out of 5 stars”. Portraits have empty `alt` because the name is right next to them.",
       "FAQ items are native `<details>` elements.",
+      "Process cards can be opened from the keyboard. The enquiry form uses visible labels, real checkboxes and radio buttons for the choices, and announces the thank-you message as a status.",
     ],
     troubleshooting: [
       {

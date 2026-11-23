@@ -7,7 +7,6 @@
   --animate-agency-wheel: agency-wheel 140s linear infinite;
   --animate-agency-flip: agency-flip 18s ease-in-out infinite;
   --animate-agency-drift: agency-drift 14s ease-in-out infinite alternate;
-  --animate-agency-glow: agency-glow 16s ease-in-out infinite alternate;
   --animate-aquarium-sway: aquarium-sway 4s ease-in-out infinite alternate;
   --animate-aquarium-bubble: aquarium-bubble 3s ease-in infinite;
   --animate-aurora: aurora 18s ease-in-out infinite alternate;
@@ -146,14 +145,6 @@
   }
   to {
     transform: scale(1.25) translate(-6%, 4%);
-  }
-}
-@keyframes agency-glow {
-  from {
-    transform: translate(0, 0) scale(1);
-  }
-  to {
-    transform: translate(18%, 12%) scale(1.2);
   }
 }
 @layer components {
