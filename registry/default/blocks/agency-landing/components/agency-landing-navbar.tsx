@@ -9,7 +9,9 @@ import { cn } from "@/lib/utils"
 import { AgencyLandingButton } from "./agency-landing-button"
 import { AgencyLandingLogo } from "./agency-landing-logo"
 
-const links = [
+export type AgencyLandingNavLink = { label: string; href: string; /** Marks the page you're on. */ current?: boolean }
+
+const defaultLinks: AgencyLandingNavLink[] = [
   { label: "About us", href: "#about" },
   { label: "Services", href: "#services" },
   { label: "Projects", href: "#projects" },
@@ -20,8 +22,9 @@ const links = [
 /**
  * A floating header bar. Below `md` the links move into a disclosure menu
  * that closes on Escape (returning focus to the toggle) or when a link is chosen.
+ * Pass `links` to point it at other pages, e.g. from the About page.
  */
-export function AgencyLandingNavbar() {
+export function AgencyLandingNavbar({ links = defaultLinks }: { links?: AgencyLandingNavLink[] }) {
   const [open, setOpen] = React.useState(false)
   const toggleRef = React.useRef<HTMLButtonElement>(null)
   const menuId = React.useId()
@@ -77,7 +80,8 @@ export function AgencyLandingNavbar() {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="rounded-full px-3 py-2 text-sm text-muted-foreground transition-colors outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-agency-accent/40"
+                    aria-current={link.current ? "page" : undefined}
+                    className="rounded-full px-3 py-2 text-sm text-muted-foreground transition-colors outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-agency-accent/40 aria-[current=page]:font-medium aria-[current=page]:text-foreground"
                   >
                     {link.label}
                   </a>
@@ -115,6 +119,7 @@ export function AgencyLandingNavbar() {
               <li key={link.label}>
                 <a
                   href={link.href}
+                  aria-current={link.current ? "page" : undefined}
                   onClick={() => setOpen(false)}
                   className="block rounded-2xl px-3 py-2.5 text-sm font-medium outline-none hover:bg-agency-surface focus-visible:ring-3 focus-visible:ring-agency-accent/40"
                 >
