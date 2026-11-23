@@ -71,6 +71,9 @@
   --animate-rubber-stamp-handle: rubber-stamp-handle 0.3s ease-out;
   --color-saas-primary: var(--saas-primary);
   --color-saas-accent: var(--saas-accent);
+  --animate-saas-marquee: saas-marquee 40s linear infinite;
+  --animate-saas-marquee-slow: saas-marquee 70s linear infinite;
+  --animate-saas-marquee-reverse: saas-marquee 70s linear infinite reverse;
   --animate-service-bell-wobble: service-bell-wobble 0.6s ease-out;
   --animate-shimmer: shimmer 2.5s linear infinite;
   --animate-skeleton-shimmer: skeleton-shimmer 1.6s ease-in-out infinite;
@@ -818,6 +821,32 @@
   }
   40% {
     transform: translateY(14px);
+  }
+}
+@keyframes saas-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@layer saas-landing {
+  .saas-faq {
+    interpolate-size: allow-keywords;
+  }
+  .saas-faq::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition: block-size 0.35s ease, content-visibility 0.35s allow-discrete;
+  }
+  .saas-faq[open]::details-content {
+    block-size: auto;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .saas-faq::details-content {
+      transition: none;
+    }
   }
 }
 @keyframes service-bell-wobble {

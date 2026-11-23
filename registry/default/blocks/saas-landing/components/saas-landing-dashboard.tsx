@@ -68,7 +68,7 @@ export function SaasLandingDashboard({ className }: { className?: string }) {
       aria-label="The Pulsewise overview dashboard: weekly active users up 12.4%, an activation funnel and an AI insight about a mobile app drop-off."
       className={cn(
         "overflow-hidden rounded-xl border bg-card text-left text-card-foreground shadow-2xl shadow-black/10 ring-1 ring-foreground/5 select-none dark:shadow-black/40",
-        className
+        className,
       )}
     >
       <div className="flex items-center gap-2 border-b bg-muted/40 px-4 py-2.5">
@@ -93,7 +93,7 @@ export function SaasLandingDashboard({ className }: { className?: string }) {
               key={label}
               className={cn(
                 "flex items-center gap-2 rounded-md px-2 py-1.5 text-xs",
-                active ? "bg-background font-medium shadow-sm ring-1 ring-border" : "text-muted-foreground"
+                active ? "bg-background font-medium shadow-sm ring-1 ring-border" : "text-muted-foreground",
               )}
             >
               <Icon className="size-3.5" />
@@ -129,7 +129,7 @@ export function SaasLandingDashboard({ className }: { className?: string }) {
                   <p
                     className={cn(
                       "mt-0.5 inline-flex items-center gap-1 text-[11px] font-medium tabular-nums",
-                      positive ? "text-emerald-700 dark:text-emerald-400" : "text-red-600 dark:text-red-400"
+                      positive ? "text-emerald-700 dark:text-emerald-400" : "text-red-600 dark:text-red-400",
                     )}
                   >
                     <Trend className="size-3" />
@@ -159,9 +159,26 @@ export function SaasLandingDashboard({ className }: { className?: string }) {
                   </linearGradient>
                 </defs>
                 {[0.25, 0.5, 0.75].map((y) => (
-                  <line key={y} x1="0" x2={CHART_W} y1={CHART_H * y} y2={CHART_H * y} stroke="var(--border)" strokeDasharray="4 4" vectorEffect="non-scaling-stroke" />
+                  <line
+                    key={y}
+                    x1="0"
+                    x2={CHART_W}
+                    y1={CHART_H * y}
+                    y2={CHART_H * y}
+                    stroke="var(--border)"
+                    strokeDasharray="4 4"
+                    vectorEffect="non-scaling-stroke"
+                  />
                 ))}
-                <path d={previousLine} fill="none" stroke="var(--muted-foreground)" strokeOpacity="0.45" strokeWidth="1.5" strokeDasharray="5 4" vectorEffect="non-scaling-stroke" />
+                <path
+                  d={previousLine}
+                  fill="none"
+                  stroke="var(--muted-foreground)"
+                  strokeOpacity="0.45"
+                  strokeWidth="1.5"
+                  strokeDasharray="5 4"
+                  vectorEffect="non-scaling-stroke"
+                />
                 <path d={currentArea} fill="url(#saas-landing-area)" />
                 <path d={currentLine} fill="none" stroke="var(--saas-primary)" strokeWidth="2" vectorEffect="non-scaling-stroke" />
               </svg>

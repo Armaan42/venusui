@@ -5,6 +5,7 @@ import { SaasLandingFeatures } from "./saas-landing-features"
 import { SaasLandingFooter } from "./saas-landing-footer"
 import { SaasLandingHero } from "./saas-landing-hero"
 import { SaasLandingLogos } from "./saas-landing-logos"
+import { SaasLandingMotion } from "./saas-landing-motion"
 import { SaasLandingNavbar } from "./saas-landing-navbar"
 import { SaasLandingPricing } from "./saas-landing-pricing"
 
@@ -15,18 +16,20 @@ import { SaasLandingPricing } from "./saas-landing-pricing"
  */
 export function SaasLanding() {
   return (
-    <div className="flex min-h-svh flex-col bg-background text-foreground">
-      <SaasLandingNavbar />
-      <main className="flex-1">
-        <SaasLandingHero />
-        <SaasLandingLogos />
-        <SaasLandingFeatures />
-        <SaasLandingCustomers />
-        <SaasLandingPricing />
-        <SaasLandingFaq />
-        <SaasLandingCta />
-      </main>
-      <SaasLandingFooter />
-    </div>
+    <SaasLandingMotion>
+      <div className="flex min-h-svh flex-col bg-background text-foreground">
+        <SaasLandingNavbar />
+        <main className="flex-1">
+          <SaasLandingHero />
+          <SaasLandingLogos />
+          <SaasLandingFeatures />
+          <SaasLandingCustomers />
+          <SaasLandingPricing />
+          <SaasLandingFaq />
+          <SaasLandingCta />
+        </main>
+        <SaasLandingFooter />
+      </div>
+    </SaasLandingMotion>
   )
 }
