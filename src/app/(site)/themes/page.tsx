@@ -4,7 +4,7 @@ import { ArrowUpRight } from "lucide-react"
 
 import { ComponentPreview } from "@/components/site/component-preview"
 import { ThemeCss } from "@/components/site/theme-css"
-import { ThemeCustomizer } from "@/components/site/theme-customizer"
+import { ThemePanel } from "@/components/site/theme-customizer"
 import { ThemePresets } from "@/components/site/theme-presets"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -59,10 +59,7 @@ export default function ThemesPage() {
 
       <div className="mt-10 grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[20rem_minmax(0,1fr)]">
         <aside className="lg:sticky lg:top-20 lg:self-start">
-          <div className="rounded-xl border bg-card p-5">
-            <h2 className="mb-4 text-sm font-medium">Customize</h2>
-            <ThemeCustomizer />
-          </div>
+          <ThemePanel title="Customize" className="lg:max-h-[calc(100svh-6.5rem)]" />
         </aside>
 
         <div className="min-w-0 space-y-10">

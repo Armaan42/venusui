@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { Palette } from "lucide-react"
 
-import { ThemeCustomizer } from "@/components/site/theme-customizer"
+import { ThemePanel } from "@/components/site/theme-customizer"
 import { Button } from "@/components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 
@@ -16,14 +16,16 @@ export function ThemeMenu({ className }: { className?: string }) {
           <Palette aria-hidden="true" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="end" className="max-h-[min(80vh,44rem)] w-80 overflow-y-auto p-4">
-        <div className="mb-4 flex items-baseline justify-between">
-          <p className="text-sm font-medium">Theme</p>
-          <Link href="/themes" className="text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline">
-            Theme page
-          </Link>
-        </div>
-        <ThemeCustomizer />
+      <PopoverContent align="end" className="flex max-h-[min(80vh,44rem)] w-80 flex-col overflow-hidden p-0">
+        <ThemePanel
+          title="Theme"
+          className="rounded-none border-0"
+          aside={
+            <Link href="/themes" className="text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline">
+              All themes
+            </Link>
+          }
+        />
       </PopoverContent>
     </Popover>
   )
