@@ -141,6 +141,7 @@ import item_moon_phase from "./items/moon-phase.ts"
 import item_morphing_pill from "./items/morphing-pill.ts"
 import item_morse_key from "./items/morse-key.ts"
 import item_motion_lamp from "./items/motion-lamp.ts"
+import item_motion_library from "./items/motion-library.ts"
 import item_multitap_keypad from "./items/multitap-keypad.ts"
 import item_music_box from "./items/music-box.ts"
 import item_music_equalizer from "./items/music-equalizer.ts"
@@ -407,6 +408,7 @@ export const itemDefinitions: RegistryItemDefinition[] = [
   item_morphing_pill,
   item_morse_key,
   item_motion_lamp,
+  item_motion_library,
   item_multitap_keypad,
   item_music_box,
   item_music_equalizer,

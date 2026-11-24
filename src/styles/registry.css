@@ -48,6 +48,25 @@
   --animate-meteor: meteor 5s linear infinite;
   --animate-metronome-swing: metronome-swing 1s ease-in-out infinite;
   --animate-motion-lamp-rise: motion-lamp-rise 15s ease-in-out infinite;
+  --color-ml-bg: var(--ml-bg);
+  --color-ml-card: var(--ml-card);
+  --color-ml-chat: var(--ml-chat);
+  --color-ml-ink: var(--ml-ink);
+  --color-ml-muted: var(--ml-muted);
+  --color-ml-line: var(--ml-line);
+  --color-ml-accent: var(--ml-accent);
+  --color-ml-on-accent: var(--ml-on-accent);
+  --color-ml-accent-ink: var(--ml-accent-ink);
+  --color-ml-accent-soft: var(--ml-accent-soft);
+  --color-ml-paper: var(--ml-paper);
+  --color-ml-paper-ink: var(--ml-paper-ink);
+  --animate-ml-pan: ml-pan 9s ease-in-out infinite alternate;
+  --animate-ml-float: ml-float 6s ease-in-out infinite;
+  --animate-ml-flash: ml-flash 3.6s ease-in-out infinite;
+  --animate-ml-blink: ml-blink 1.1s steps(1) infinite;
+  --animate-ml-orbit: ml-orbit 8s linear infinite;
+  --animate-ml-spin: ml-spin 28s linear infinite;
+  --animate-ml-drip: ml-drip 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
   --animate-multitap-keypad-caret: multitap-keypad-caret 1s linear infinite;
   --animate-music-box-twang: music-box-twang 0.5s ease-out;
   --animate-neon-sign-boot: neon-sign-boot 1.2s linear both;
@@ -107,6 +126,18 @@
   --agency-surface: oklch(0.978 0.006 255);
   --agency-card: oklch(1 0 0);
   --agency-muted: oklch(0.5 0 0);
+  --ml-bg: oklch(0.155 0.008 50);
+  --ml-card: oklch(0.195 0.01 50);
+  --ml-chat: oklch(0.24 0.012 50);
+  --ml-ink: oklch(0.945 0.014 75);
+  --ml-muted: oklch(0.72 0.014 70);
+  --ml-line: oklch(0.945 0.014 75 / 0.12);
+  --ml-accent: oklch(0.68 0.21 38);
+  --ml-on-accent: oklch(0.16 0.02 40);
+  --ml-accent-ink: oklch(0.48 0.16 38);
+  --ml-accent-soft: oklch(0.82 0.12 52);
+  --ml-paper: oklch(0.935 0.018 75);
+  --ml-paper-ink: oklch(0.18 0.012 50);
   --saas-primary: oklch(0.511 0.262 276.966);
   --saas-accent: oklch(0.596 0.145 163.225);
 }
@@ -115,6 +146,18 @@
   --agency-surface: oklch(0.16 0.01 270);
   --agency-card: oklch(0.205 0.012 270);
   --agency-muted: oklch(0.72 0 0);
+  --ml-bg: oklch(0.155 0.008 50);
+  --ml-card: oklch(0.195 0.01 50);
+  --ml-chat: oklch(0.24 0.012 50);
+  --ml-ink: oklch(0.945 0.014 75);
+  --ml-muted: oklch(0.72 0.014 70);
+  --ml-line: oklch(0.945 0.014 75 / 0.12);
+  --ml-accent: oklch(0.68 0.21 38);
+  --ml-on-accent: oklch(0.16 0.02 40);
+  --ml-accent-ink: oklch(0.48 0.16 38);
+  --ml-accent-soft: oklch(0.82 0.12 52);
+  --ml-paper: oklch(0.935 0.018 75);
+  --ml-paper-ink: oklch(0.18 0.012 50);
   --saas-primary: oklch(0.673 0.182 276.935);
   --saas-accent: oklch(0.765 0.177 163.223);
 }
@@ -579,6 +622,83 @@
   }
   55% {
     transform: translate(var(--drift), var(--rise)) scale(1.15, 0.85);
+  }
+}
+@keyframes ml-pan {
+  from {
+    transform: scale(1.02) translate(0, 0);
+  }
+  to {
+    transform: scale(1.14) translate(-3%, 2%);
+  }
+}
+@keyframes ml-float {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(10px, -6px);
+  }
+}
+@keyframes ml-flash {
+  0%, 70%, 100% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.35;
+  }
+}
+@keyframes ml-blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes ml-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ml-spin {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(-360deg);
+  }
+}
+@keyframes ml-drip {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  51% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+@layer motion-library {
+  html.lenis, html.lenis body {
+    height: auto;
+  }
+  .lenis:not(.lenis-autoToggle).lenis-stopped {
+    overflow: clip;
+  }
+  .lenis [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  .lenis.lenis-smooth iframe {
+    pointer-events: none;
   }
 }
 @keyframes multitap-keypad-caret {
