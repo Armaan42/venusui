@@ -143,6 +143,7 @@ export const demos: Record<string, DemoLoader> = {
   "morphing-pill": () => import("@/registry/default/examples/morphing-pill-demo"),
   "morse-key": () => import("@/registry/default/examples/morse-key-demo"),
   "motion-lamp": () => import("@/registry/default/examples/motion-lamp-demo"),
+  "motion-library": () => import("@/registry/default/examples/motion-library-demo"),
   "multitap-keypad": () => import("@/registry/default/examples/multitap-keypad-demo"),
   "music-box": () => import("@/registry/default/examples/music-box-demo"),
   "music-equalizer": () => import("@/registry/default/examples/music-equalizer-demo"),
