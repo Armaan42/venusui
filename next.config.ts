@@ -13,11 +13,17 @@ const nextConfig: NextConfig = {
       ["lava-lamp", "motion-lamp"],
       ["t9-keypad", "multitap-keypad"],
     ];
-    return renamed.flatMap(([from, to]) => [
-      { source: `/components/${from}`, destination: `/components/${to}`, permanent: true },
-      { source: `/view/${from}`, destination: `/view/${to}`, permanent: true },
-      { source: `/r/${from}.json`, destination: `/r/${to}.json`, permanent: true },
-    ]);
+    return [
+      ...renamed.flatMap(([from, to]) => [
+        { source: `/components/${from}`, destination: `/components/${to}`, permanent: true },
+        { source: `/view/${from}`, destination: `/view/${to}`, permanent: true },
+        { source: `/r/${from}.json`, destination: `/r/${to}.json`, permanent: true },
+      ]),
+      // Agency About was briefly its own template; it is now the second page of Agency Landing.
+      { source: "/templates/agency-about", destination: "/templates/agency-landing", permanent: true },
+      { source: "/view/agency-about", destination: "/view/agency-landing?page=about", permanent: true },
+      { source: "/r/agency-about.json", destination: "/r/agency-landing.json", permanent: true },
+    ];
   },
   partialPrefetching: true,
   turbopack: {

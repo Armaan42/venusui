@@ -4,8 +4,8 @@ import * as React from "react"
 import { Star } from "lucide-react"
 import { motion, useScroll, useTransform, type MotionValue } from "motion/react"
 
-import { AgencyLandingEyebrow } from "@/registry/default/blocks/agency-landing/components/agency-landing-button"
-import { Reveal } from "@/registry/default/blocks/agency-landing/components/agency-landing-motion"
+import { AgencyLandingEyebrow } from "./agency-landing-button"
+import { Reveal } from "./agency-landing-motion"
 
 import { photos } from "./agency-about-media"
 

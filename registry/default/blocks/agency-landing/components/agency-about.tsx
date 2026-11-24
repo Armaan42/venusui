@@ -1,8 +1,7 @@
-import { AgencyLandingCta } from "@/registry/default/blocks/agency-landing/components/agency-landing-cta"
-import { AgencyLandingFooter } from "@/registry/default/blocks/agency-landing/components/agency-landing-footer"
-import { AgencyLandingMotion } from "@/registry/default/blocks/agency-landing/components/agency-landing-motion"
-import { AgencyLandingNavbar } from "@/registry/default/blocks/agency-landing/components/agency-landing-navbar"
-
+import { AgencyLandingCta } from "./agency-landing-cta"
+import { AgencyLandingFooter } from "./agency-landing-footer"
+import { AgencyLandingMotion } from "./agency-landing-motion"
+import { AgencyLandingNavbar, type AgencyLandingNavLink } from "./agency-landing-navbar"
 import { AgencyAboutHero } from "./agency-about-hero"
 import { AgencyAboutMission } from "./agency-about-mission"
 import { AgencyAboutStory } from "./agency-about-story"
@@ -10,7 +9,7 @@ import { AgencyAboutTeam } from "./agency-about-team"
 import { AgencyAboutVision } from "./agency-about-vision"
 
 /** The navbar's links on the About page: back to the home page's sections, and this page marked as current. */
-const links = [
+const aboutLinks: AgencyLandingNavLink[] = [
   { label: "Home", href: "/" },
   { label: "About us", href: "/about", current: true },
   { label: "Services", href: "/#services" },
@@ -19,11 +18,13 @@ const links = [
 ]
 
 /**
- * Agency About: the About page for Arcwell, the made-up studio from Agency
- * Landing. It reuses that template's navbar, contact section and footer, so
+ * The About page of the Arcwell site, the second page of the Agency Landing
+ * template. It shares the home page's navbar, contact section and footer, so
  * the two pages match. Render it from `app/about/page.tsx`.
+ *
+ * `links` replaces the navbar's links, for example to point them at other routes.
  */
-export function AgencyAbout() {
+export function AgencyAbout({ links = aboutLinks }: { links?: AgencyLandingNavLink[] }) {
   return (
     <AgencyLandingMotion>
       <div

@@ -1,8 +1,8 @@
 import { ArrowUpRight } from "lucide-react"
 
-import { AgencyLandingEyebrow } from "@/registry/default/blocks/agency-landing/components/agency-landing-button"
-import { portrait } from "@/registry/default/blocks/agency-landing/components/agency-landing-media"
-import { Reveal, RevealItem, RevealList } from "@/registry/default/blocks/agency-landing/components/agency-landing-motion"
+import { AgencyLandingEyebrow } from "./agency-landing-button"
+import { portrait } from "./agency-landing-media"
+import { Reveal, RevealItem, RevealList } from "./agency-landing-motion"
 
 /** The people behind Arcwell. Made up; swap in your own team and photos. */
 const people = [
