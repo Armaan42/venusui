@@ -291,3 +291,34 @@
     }
   }
 }
+
+/* Smooth scrolling (Lenis) on the homepage; these are Lenis's own required styles. */
+@layer base {
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis:not(.lenis-autoToggle).lenis-stopped {
+    overflow: clip;
+  }
+  .lenis [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  .lenis.lenis-smooth iframe {
+    pointer-events: none;
+  }
+}
+
+/* Playground: a changed line of code flashes in the accent color, then fades. */
+@theme {
+  --animate-code-flash: code-flash 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  @keyframes code-flash {
+    from {
+      background-color: color-mix(in oklch, var(--primary) 30%, transparent);
+    }
+    to {
+      background-color: transparent;
+    }
+  }
+}
