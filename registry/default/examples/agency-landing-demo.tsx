@@ -3,13 +3,29 @@
 import * as React from "react"
 
 import { AgencyAbout } from "@/registry/default/blocks/agency-landing/components/agency-about"
+import { AgencyBlog } from "@/registry/default/blocks/agency-landing/components/agency-blog"
+import { AgencyFaq } from "@/registry/default/blocks/agency-landing/components/agency-faq"
 import { AgencyLanding } from "@/registry/default/blocks/agency-landing/components/agency-landing"
+import { AgencyPricing } from "@/registry/default/blocks/agency-landing/components/agency-pricing"
+import { AgencyProjects } from "@/registry/default/blocks/agency-landing/components/agency-projects"
+import { AgencyServices } from "@/registry/default/blocks/agency-landing/components/agency-services"
+import { AgencySiteProvider, agencyPages, type AgencyPage } from "@/registry/default/blocks/agency-landing/components/agency-site"
+import { AgencyTeam } from "@/registry/default/blocks/agency-landing/components/agency-team"
 
-// In your app these are two routes:
-//   app/page.tsx        → <AgencyLanding />
-//   app/about/page.tsx  → <AgencyAbout />
-// This preview shows both in one place: `?page=about` opens the About page,
-// and the navbar links switch between them (keeping any other query, like the theme).
+// In your app every page is its own route (app/page.tsx, app/about/page.tsx, app/projects/page.tsx…),
+// and the links need no setup. This preview shows all eight pages at one address instead:
+// `?page=projects` opens Projects, and the navbar and footer links switch pages, keeping the rest of the query.
+
+const pages: Record<AgencyPage, () => React.ReactElement> = {
+  home: AgencyLanding,
+  about: AgencyAbout,
+  services: AgencyServices,
+  projects: AgencyProjects,
+  blog: AgencyBlog,
+  team: AgencyTeam,
+  pricing: AgencyPricing,
+  faq: AgencyFaq,
+}
 
 function subscribe(onChange: () => void) {
   window.addEventListener("popstate", onChange)
@@ -23,36 +39,22 @@ export default function Page() {
     () => window.location.search,
     () => "",
   )
-  const page = new URLSearchParams(search).get("page") === "about" ? "about" : "home"
+  const requested = new URLSearchParams(search).get("page")
+  const page: AgencyPage = requested && Object.hasOwn(agencyPages, requested) ? (requested as AgencyPage) : "home"
 
-  const to = (target: "home" | "about", hash = "") => {
-    const params = new URLSearchParams(search)
-    params.set("page", target)
-    return `?${params.toString()}${hash}`
-  }
+  const href = React.useCallback(
+    (target: AgencyPage, hash = "") => {
+      const params = new URLSearchParams(search)
+      params.set("page", target)
+      return `?${params.toString()}${hash}`
+    },
+    [search],
+  )
 
-  if (page === "about") {
-    return (
-      <AgencyAbout
-        links={[
-          { label: "Home", href: to("home") },
-          { label: "About us", href: to("about"), current: true },
-          { label: "Services", href: to("home", "#services") },
-          { label: "Projects", href: to("home", "#projects") },
-          { label: "Team", href: "#team" },
-        ]}
-      />
-    )
-  }
+  const Current = pages[page]
   return (
-    <AgencyLanding
-      links={[
-        { label: "About us", href: to("about") },
-        { label: "Services", href: "#services" },
-        { label: "Projects", href: "#projects" },
-        { label: "Team", href: "#team" },
-        { label: "FAQ", href: "#faq" },
-      ]}
-    />
+    <AgencySiteProvider href={href}>
+      <Current />
+    </AgencySiteProvider>
   )
 }

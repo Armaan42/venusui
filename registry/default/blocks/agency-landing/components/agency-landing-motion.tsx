@@ -178,24 +178,29 @@ export function CountUp({
   const ref = React.useRef<HTMLSpanElement>(null)
   const inView = useInView(ref, { once: true, amount: 0.6 })
   const reduce = useReducedMotion()
-  const final = `${prefix}${value.toFixed(decimals)}${suffix}`
+  // Thousands get a separator, so 48260 reads as 48,260.
+  const format = React.useCallback(
+    (n: number) => `${prefix}${n.toLocaleString("en-US", { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}${suffix}`,
+    [prefix, suffix, decimals],
+  )
+  const final = format(value)
 
   React.useEffect(() => {
     const node = ref.current
     if (!node || reduce) return
     if (!inView) {
-      node.textContent = `${prefix}${(0).toFixed(decimals)}${suffix}`
+      node.textContent = format(0)
       return
     }
     const controls = animate(0, value, {
       duration,
       ease: EASE,
       onUpdate: (latest) => {
-        node.textContent = `${prefix}${latest.toFixed(decimals)}${suffix}`
+        node.textContent = format(latest)
       },
     })
     return () => controls.stop()
-  }, [inView, reduce, value, decimals, prefix, suffix, duration])
+  }, [inView, reduce, value, format, duration])
 
   return (
     <span className={className}>
