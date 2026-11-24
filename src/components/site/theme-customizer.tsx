@@ -24,6 +24,7 @@ import {
   type Radius,
   type Tint,
 } from "@/config/themes"
+import { THEME_PRESETS } from "@/config/theme-presets"
 import { cn } from "@/lib/utils"
 
 /** One choice in a group: a native radio styled as a pill, so arrow keys and screen readers work as usual. */
@@ -33,6 +34,7 @@ function Choice({
   checked,
   onSelect,
   swatch,
+  segmented,
   children,
 }: {
   name: string
@@ -40,13 +42,16 @@ function Choice({
   checked: boolean
   onSelect: () => void
   swatch?: string
+  segmented?: boolean
   children: React.ReactNode
 }) {
   return (
     <label
       className={cn(
-        "relative flex h-8 cursor-pointer items-center gap-2 rounded-md border px-2.5 text-xs text-muted-foreground transition-colors select-none hover:text-foreground",
-        "has-checked:border-foreground/50 has-checked:bg-muted has-checked:text-foreground has-focus-visible:ring-3 has-focus-visible:ring-ring/50",
+        "relative flex cursor-pointer items-center gap-2 text-xs text-muted-foreground transition-colors select-none hover:text-foreground has-focus-visible:ring-3 has-focus-visible:ring-ring/50",
+        segmented
+          ? "h-7 justify-center rounded-[calc(var(--radius)*0.6)] px-1.5 text-foreground/75 has-checked:bg-background has-checked:text-foreground has-checked:shadow-xs"
+          : "h-8 rounded-md border px-2.5 has-checked:border-foreground/50 has-checked:bg-muted has-checked:text-foreground",
       )}
     >
       <input type="radio" name={name} value={value} checked={checked} onChange={onSelect} className="sr-only" />
@@ -58,11 +63,28 @@ function Choice({
   )
 }
 
-function Group({ legend, children, className }: { legend: string; children: React.ReactNode; className?: string }) {
+function Group({
+  legend,
+  children,
+  className,
+  segmented,
+}: {
+  legend: string
+  children: React.ReactNode
+  className?: string
+  segmented?: boolean
+}) {
   return (
     <fieldset className="space-y-2">
-      <legend className="text-xs font-medium">{legend}</legend>
-      <div className={cn("grid gap-1.5", className)}>{children}</div>
+      <legend className="mb-2 text-xs font-medium">{legend}</legend>
+      <div
+        className={cn(
+          segmented ? "grid auto-cols-fr grid-flow-col gap-0.5 rounded-md border bg-muted/60 p-0.5" : "grid gap-1.5",
+          className,
+        )}
+      >
+        {children}
+      </div>
     </fieldset>
   )
 }
@@ -163,16 +185,15 @@ function CustomColor({ color }: { color: string }) {
  * preview and block follows it live, and it's remembered for the next visit.
  * "Copy CSS" gives the matching globals.css block.
  */
-export function ThemeCustomizer({ className }: { className?: string }) {
+export function ThemeCustomizer({ className, actions = true }: { className?: string; actions?: boolean }) {
   const theme = useThemeState()
   const id = React.useId()
-  const isDefault = sameTheme(theme, DEFAULT_THEME)
 
   return (
-    <div data-slot="theme-customizer" className={cn("flex flex-col gap-4", className)}>
-      <Group legend="Mode" className="grid-cols-2">
+    <div data-slot="theme-customizer" className={cn("flex flex-col gap-5", className)}>
+      <Group legend="Mode" segmented>
         {(["light", "dark"] as Mode[]).map((mode) => (
-          <Choice key={mode} name={`${id}-mode`} value={mode} checked={theme.mode === mode} onSelect={() => setMode(mode)}>
+          <Choice key={mode} segmented name={`${id}-mode`} value={mode} checked={theme.mode === mode} onSelect={() => setMode(mode)}>
             {mode === "light" ? <Sun aria-hidden="true" className="size-3.5" /> : <Moon aria-hidden="true" className="size-3.5" />}
             {mode === "light" ? "Light" : "Dark"}
           </Choice>
@@ -221,9 +242,16 @@ export function ThemeCustomizer({ className }: { className?: string }) {
         {theme.accent === "custom" ? <CustomColor color={theme.color} /> : null}
       </div>
 
-      <Group legend="Surface tint" className="grid-cols-3">
+      <Group legend="Surface tint" segmented>
         {(Object.keys(TINTS) as Tint[]).map((tint) => (
-          <Choice key={tint} name={`${id}-tint`} value={tint} checked={theme.tint === tint} onSelect={() => setThemeConfig({ tint })}>
+          <Choice
+            key={tint}
+            segmented
+            name={`${id}-tint`}
+            value={tint}
+            checked={theme.tint === tint}
+            onSelect={() => setThemeConfig({ tint })}
+          >
             {TINTS[tint]}
           </Choice>
         ))}
@@ -248,34 +276,83 @@ export function ThemeCustomizer({ className }: { className?: string }) {
         })}
       </Group>
 
-      <Group legend="Radius" className="grid-cols-3">
+      <Group legend="Radius" segmented>
         {RADII.map((radius: Radius) => (
           <Choice
             key={radius}
+            segmented
             name={`${id}-radius`}
             value={radius}
             checked={theme.radius === radius}
             onSelect={() => setThemeConfig({ radius })}
           >
-            <span className="w-full text-center font-mono">{radius}</span>
+            <span className="w-full text-center font-mono text-[11px] tabular-nums">{radius}</span>
           </Choice>
         ))}
       </Group>
 
-      <div className="flex items-center justify-between gap-2 border-t pt-3">
-        <button
-          type="button"
-          onClick={() => setThemeConfig(DEFAULT_THEME)}
-          disabled={isDefault}
-          className="inline-flex h-8 items-center gap-1.5 rounded-md px-2 text-xs text-muted-foreground outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-40"
-        >
-          <RotateCcw aria-hidden="true" className="size-3.5" />
-          Reset
-        </button>
-        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-          Copy CSS
-          <CopyButton value={themeCss(theme)} label="Copy theme CSS for globals.css" />
+      {actions ? (
+        <div className="border-t pt-3">
+          <ThemeActions />
         </div>
+      ) : null}
+    </div>
+  )
+}
+
+/** Reset and Copy CSS, for the bottom of a theme panel. */
+export function ThemeActions() {
+  const theme = useThemeState()
+  const isDefault = sameTheme(theme, DEFAULT_THEME)
+  return (
+    <div className="flex items-center justify-between gap-2">
+      <button
+        type="button"
+        onClick={() => setThemeConfig(DEFAULT_THEME)}
+        disabled={isDefault}
+        className="inline-flex h-8 items-center gap-1.5 rounded-md px-2 text-xs text-muted-foreground outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-40"
+      >
+        <RotateCcw aria-hidden="true" className="size-3.5" />
+        Reset
+      </button>
+      <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+        Copy CSS
+        <CopyButton value={themeCss(theme)} label="Copy theme CSS for globals.css" />
+      </div>
+    </div>
+  )
+}
+
+/** The name of the current theme: a ready-made one, Default, or Custom. */
+function CurrentTheme() {
+  const theme = useThemeState()
+  const preset = THEME_PRESETS.find((item) => sameTheme(item.config, theme))
+  const name = preset ? preset.name : sameTheme(theme, DEFAULT_THEME) ? "Default" : "Custom"
+  return (
+    <span className="inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[11px] text-muted-foreground">
+      <span aria-hidden="true" className="size-1.5 rounded-full bg-primary" />
+      {name}
+    </span>
+  )
+}
+
+/**
+ * The customizer as a panel: a header with the current theme's name, the
+ * controls in a body that scrolls on its own when the panel is taller than
+ * the space it's given, and Reset and Copy CSS pinned to the bottom.
+ */
+export function ThemePanel({ title, aside, className }: { title: string; aside?: React.ReactNode; className?: string }) {
+  return (
+    <div className={cn("flex min-h-0 flex-col overflow-hidden rounded-xl border bg-card", className)}>
+      <div className="flex items-center justify-between gap-3 border-b px-4 py-3">
+        <h2 className="text-sm font-medium">{title}</h2>
+        {aside ?? <CurrentTheme />}
+      </div>
+      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 [scrollbar-gutter:stable]">
+        <ThemeCustomizer actions={false} />
+      </div>
+      <div className="border-t bg-muted/30 px-4 py-2">
+        <ThemeActions />
       </div>
     </div>
   )
