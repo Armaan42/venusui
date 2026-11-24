@@ -148,7 +148,7 @@ const ITEMS: PlaygroundItem[] = [
   },
 ]
 
-/** Colors tags, attribute names and values; everything else stays plain. The playground sits on a dark stage. */
+/** Colors tags, attribute names and values; everything else stays plain. */
 function HighlightedCode({ code }: { code: string }) {
   const parts = code.split(/(<\/?[A-Za-z]+|\b[a-zA-Z]+(?==)|"[^"\n]*"|\{[^{}\n]*\})/g)
   return (
@@ -156,13 +156,13 @@ function HighlightedCode({ code }: { code: string }) {
       {parts.map((part, i) => {
         if (!part) return null
         const className = part.startsWith("<")
-          ? "text-sky-300"
+          ? "text-sky-700 dark:text-sky-300"
           : part.startsWith('"')
-            ? "text-emerald-300"
+            ? "text-emerald-700 dark:text-emerald-300"
             : part.startsWith("{")
-              ? "text-amber-300"
+              ? "text-amber-700 dark:text-amber-300"
               : parts[i + 1]?.startsWith("=")
-                ? "text-violet-300"
+                ? "text-violet-700 dark:text-violet-300"
                 : undefined
         return className ? (
           <span key={i} className={className}>
@@ -311,7 +311,7 @@ const toolButton =
 
 /**
  * The live preview with its own width and light/dark switches (scoped to the
- * preview only). Switching component flips the stage over in 3D.
+ * preview only). Switching component fades the new one in.
  */
 function PreviewStage({ item, values }: { item: PlaygroundItem; values: Values }) {
   const site = useThemeState().mode
@@ -321,7 +321,7 @@ function PreviewStage({ item, values }: { item: PlaygroundItem; values: Values }
   const maxWidth = WIDTHS.find((w) => w.id === width)?.maxWidth
 
   return (
-    <div className="flex min-w-0 flex-col overflow-hidden rounded-xl border bg-card shadow-[0_40px_80px_-40px_rgb(0_0_0/0.8)]">
+    <div className="flex min-w-0 flex-col overflow-hidden rounded-xl border bg-card">
       <div className="flex items-center justify-between gap-2 border-b px-2 py-1.5">
         <div role="group" aria-label="Preview width" className="flex items-center gap-0.5 rounded-lg bg-muted p-0.5">
           {WIDTHS.map(({ id, label, icon: Icon }) => (
@@ -364,7 +364,7 @@ function PreviewStage({ item, values }: { item: PlaygroundItem; values: Values }
       <div
         className={cn(
           mode,
-          "flex h-96 justify-center bg-muted bg-[repeating-linear-gradient(135deg,var(--border)_0_1px,transparent_1px_9px)] text-foreground [perspective:1400px]",
+          "flex h-96 justify-center bg-muted bg-[repeating-linear-gradient(135deg,var(--border)_0_1px,transparent_1px_9px)] text-foreground",
         )}
       >
         <div
@@ -376,10 +376,10 @@ function PreviewStage({ item, values }: { item: PlaygroundItem; values: Values }
             <motion.div
               key={item.name}
               className="flex size-full items-center justify-center"
-              initial={{ opacity: 0, rotateY: -24, scale: 0.94, filter: "blur(8px)" }}
-              animate={{ opacity: 1, rotateY: 0, scale: 1, filter: "blur(0px)" }}
-              exit={{ opacity: 0, rotateY: 18, scale: 0.96, filter: "blur(6px)" }}
-              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -6, filter: "blur(4px)" }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             >
               {item.render(values)}
             </motion.div>
@@ -409,12 +409,10 @@ function PlaygroundPanel({
 
   return (
     <div className="space-y-4">
-      <div className="grid gap-4 [perspective:1600px] lg:grid-cols-[minmax(0,1fr)_18rem]">
-        <div data-pg-frame className="min-w-0">
-          <PreviewStage item={item} values={values} />
-        </div>
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_18rem]">
+        <PreviewStage item={item} values={values} />
 
-        <div data-pg-side className="flex flex-col gap-5 rounded-xl border bg-card/80 p-5 backdrop-blur">
+        <div data-pg-side className="flex flex-col gap-5 rounded-xl border bg-card p-5">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-medium">{item.title} props</h3>
             <button
@@ -470,7 +468,7 @@ function PlaygroundPanel({
       </div>
 
       <div data-pg-code className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_18rem]">
-        <div className="relative min-w-0 rounded-xl border bg-card/80 backdrop-blur">
+        <div className="relative min-w-0 rounded-xl border bg-muted/30">
           <CopyButton value={code} label={`Copy ${item.title} code`} className="absolute top-2 right-2" />
           <pre
             tabIndex={0}
@@ -492,9 +490,8 @@ function PlaygroundPanel({
 
 /**
  * Pick a component, change its props, and see the live result and the exact
- * code for it. Values are kept per component while switching tabs. The panel
- * stays mounted while you switch, so the scroll entrance and the 3D flip of
- * the preview both apply to it; the active tab's pill slides between tabs.
+ * code for it. Values are kept per component while switching tabs; the
+ * active tab's highlight slides between tabs.
  */
 export function Playground({ commands }: { commands: Record<string, string> }) {
   const [active, setActive] = React.useState(ITEMS[0]!.name)
@@ -504,20 +501,20 @@ export function Playground({ commands }: { commands: Record<string, string> }) {
   const item = ITEMS.find((entry) => entry.name === active) ?? ITEMS[0]!
 
   return (
-    <Tabs value={active} onValueChange={setActive} className="gap-5" data-pg-pin>
+    <Tabs value={active} onValueChange={setActive} className="gap-4">
       <div className="max-w-full overflow-x-auto">
-        <TabsList aria-label="Component to try" className="mx-auto flex h-10 w-max rounded-full border bg-card/70 p-1 backdrop-blur">
+        <TabsList aria-label="Component to try" className="isolate w-max">
           {ITEMS.map((entry) => (
             <TabsTrigger
               key={entry.name}
               value={entry.name}
-              className="relative rounded-full px-4 data-[state=active]:bg-transparent data-[state=active]:shadow-none dark:data-[state=active]:border-transparent dark:data-[state=active]:bg-transparent"
+              className="relative data-[state=active]:bg-transparent data-[state=active]:shadow-none dark:data-[state=active]:border-transparent dark:data-[state=active]:bg-transparent"
             >
               {active === entry.name ? (
                 <motion.span
                   layoutId="playground-tab"
                   aria-hidden="true"
-                  className="absolute inset-0 -z-10 rounded-full bg-primary/15 ring-1 ring-primary/40"
+                  className="absolute inset-0 -z-10 rounded-md bg-background shadow-xs ring-1 ring-border dark:bg-input/30"
                   transition={{ type: "spring", stiffness: 420, damping: 34 }}
                 />
               ) : null}
