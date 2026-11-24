@@ -10,6 +10,7 @@ import { HomeHowItWorks } from "@/components/home/home-how-it-works"
 import { HomeIcons } from "@/components/home/home-icons"
 import { HomePlayground } from "@/components/home/home-playground"
 import { HomeShowcase } from "@/components/home/home-showcase"
+import { HomeSmoothScroll } from "@/components/home/home-smooth-scroll"
 import { HomeTemplates } from "@/components/home/home-templates"
 import { getItems, getItemsByCategory } from "@/lib/registry"
 
@@ -20,6 +21,7 @@ export default function HomePage() {
 
   return (
     <>
+      <HomeSmoothScroll />
       <HomeHero components={components} blocks={blocks} threeD={threeD} />
       <HomeFeatures />
       <HomeDevice />
