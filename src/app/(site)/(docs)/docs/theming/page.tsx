@@ -5,7 +5,7 @@ import { CodeViewer } from "@/components/site/code-viewer"
 import { DocsArticle } from "@/components/site/docs-article"
 import { DocsSection, InlineText } from "@/components/site/docs"
 import { getDocsPage } from "@/config/docs"
-import { themeVars } from "@/config/themes"
+import { DEFAULT_THEME, themeVars } from "@/config/themes"
 import { getSnippet } from "@/lib/source"
 
 const HREF = "/docs/theming"
@@ -16,7 +16,7 @@ export const metadata: Metadata = { title: page.title, description: page.descrip
 const p = "text-sm leading-6 text-muted-foreground"
 
 export default async function ThemingPage() {
-  const violet = themeVars({ base: "zinc", accent: "violet", radius: "0.625" })
+  const violet = themeVars({ ...DEFAULT_THEME, base: "zinc", accent: "violet" })
   const excerpt = await getSnippet(
     [
       ":root {",
@@ -33,7 +33,7 @@ export default async function ThemingPage() {
       "}",
     ].join("\n"),
     "css",
-    "globals.css (excerpt)"
+    "globals.css (excerpt)",
   )
 
   return (
@@ -49,9 +49,15 @@ export default async function ThemingPage() {
 
       <DocsSection id="pick-a-theme" title="Pick a theme">
         <p className={p}>
-          Open the <Link href="/themes" className="font-medium text-foreground underline underline-offset-4">theme page</Link>{" "}
-          (or the palette button in the header), choose a base color, an accent and a radius, and watch every component
-          and block on this site change. Then use <strong className="font-medium text-foreground">Copy CSS</strong>.
+          Open the{" "}
+          <Link href="/themes" className="font-medium text-foreground underline underline-offset-4">
+            theme page
+          </Link>{" "}
+          (or the palette button in the header), start from one of the ready-made themes or choose a base color, an accent and a radius, and
+          watch every component and block on this site change. Then use <strong className="font-medium text-foreground">Copy CSS</strong>.
+        </p>
+        <p className={p}>
+          <InlineText text="For your own brand color, pick Custom and enter it as a hex value. Light and dark shades are worked out for you, and adjusted when needed so button text meets WCAG AA. Surface tint leans the background, cards and borders towards that color, and Charts sets `--chart-1` to `--chart-5`. Copy CSS includes all of it." />
         </p>
         <p className={p}>
           <InlineText text="Replace the `:root` and `.dark` blocks in your `globals.css` with what you copied. For example, Zinc with a violet accent starts like this:" />

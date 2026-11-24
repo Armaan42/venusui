@@ -2,7 +2,15 @@
 
 import * as React from "react"
 
-import { DEFAULT_THEME, parseThemeConfig, THEME_CONFIG_STORAGE_KEY, type ThemeConfig } from "@/config/themes"
+import {
+  DEFAULT_THEME,
+  overrideCss,
+  parseThemeConfig,
+  THEME_CONFIG_STORAGE_KEY,
+  THEME_CSS_STORAGE_KEY,
+  type ThemeConfig,
+} from "@/config/themes"
+import { THEME_OVERRIDES_ID } from "@/lib/theme"
 import { THEME_STORAGE_KEY } from "@/lib/theme"
 
 export type Mode = "light" | "dark"
@@ -22,11 +30,29 @@ function save(key: string, value: string) {
   }
 }
 
+/**
+ * Writes the theme to <html>: data attributes for what src/styles/themes.css
+ * covers, and a <style> element for the rest (custom color, tint, charts).
+ * Returns that CSS so callers can remember it for the head script.
+ */
 function applyConfig(config: ThemeConfig) {
   const root = document.documentElement
   root.dataset.base = config.base
   root.dataset.accent = config.accent
   root.dataset.radius = config.radius
+  root.dataset.color = config.color
+  root.dataset.tint = config.tint
+  root.dataset.chart = config.chart
+  const css = overrideCss(config)
+  let style = document.getElementById(THEME_OVERRIDES_ID)
+  if (css && !style) {
+    style = document.createElement("style")
+    style.id = THEME_OVERRIDES_ID
+    document.head.appendChild(style)
+  }
+  if (style) style.textContent = css
+  root.toggleAttribute("data-custom", Boolean(css))
+  return css
 }
 
 // The <html> element is the source of truth: the head script sets it before
@@ -37,9 +63,9 @@ let cachedState: ThemeState = { ...DEFAULT_THEME, mode: "light" }
 
 function readState(): ThemeState {
   const root = document.documentElement
-  const config = parseThemeConfig({ base: root.dataset.base, accent: root.dataset.accent, radius: root.dataset.radius })
+  const config = parseThemeConfig({ ...root.dataset })
   const mode: Mode = root.classList.contains("dark") ? "dark" : "light"
-  const key = `${config.base}|${config.accent}|${config.radius}|${mode}`
+  const key = `${JSON.stringify(config)}|${mode}`
   if (key !== cachedKey) {
     cachedKey = key
     cachedState = { ...config, mode }
@@ -65,16 +91,17 @@ export function setMode(mode: Mode) {
   window.dispatchEvent(new Event(CHANGE_EVENT))
 }
 
-/** Changes the base color, accent or radius for the whole site and remembers it. */
+/** Changes any part of the theme for the whole site and remembers it. */
 export function setThemeConfig(next: Partial<ThemeConfig>) {
-  const current = readState()
-  const config = parseThemeConfig({ base: current.base, accent: current.accent, radius: current.radius, ...next })
-  applyConfig(config)
+  // parseThemeConfig keeps only theme settings, so the light/dark mode is dropped here.
+  const config = parseThemeConfig({ ...readState(), ...next })
+  const css = applyConfig(config)
   save(THEME_CONFIG_STORAGE_KEY, JSON.stringify(config))
+  save(THEME_CSS_STORAGE_KEY, css)
   window.dispatchEvent(new Event(CHANGE_EVENT))
 }
 
-/** The current theme (base color, accent, radius and mode), updated live. */
+/** The current theme (every setting, and light or dark), updated live. */
 export function useThemeState(): ThemeState {
   return React.useSyncExternalStore(subscribe, readState, () => serverState)
 }
@@ -87,6 +114,14 @@ export function useThemeState(): ThemeState {
  */
 export function ThemeSync() {
   React.useEffect(() => {
+    // The head script applied the CSS saved last time; rebuild it from the
+    // settings so it always matches the current theme code.
+    const css = applyConfig(parseThemeConfig(readState()))
+    try {
+      if (localStorage.getItem(THEME_CSS_STORAGE_KEY) !== css) save(THEME_CSS_STORAGE_KEY, css)
+    } catch {
+      // Storage unavailable: the page still shows the right theme.
+    }
     const onStorage = (event: StorageEvent) => {
       if (event.key === THEME_CONFIG_STORAGE_KEY) {
         let value: unknown = {}
