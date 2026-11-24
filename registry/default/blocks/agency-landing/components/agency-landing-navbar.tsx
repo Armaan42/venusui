@@ -1,33 +1,36 @@
 "use client"
 
 import * as React from "react"
-import { Menu, X } from "lucide-react"
-import { motion } from "motion/react"
+import { ChevronDown, Menu, X } from "lucide-react"
+import { AnimatePresence, motion } from "motion/react"
 
 import { cn } from "@/lib/utils"
 
 import { AgencyLandingButton } from "./agency-landing-button"
 import { AgencyLandingLogo } from "./agency-landing-logo"
+import { agencyPages, useAgencySite, type AgencyPage } from "./agency-site"
 
-export type AgencyLandingNavLink = { label: string; href: string; /** Marks the page you're on. */ current?: boolean }
+/** The main links, and the pages tucked into the "Pages" menu. */
+const mainPages: AgencyPage[] = ["about", "services", "projects", "blog"]
+const morePages: AgencyPage[] = ["team", "pricing", "faq"]
 
-const defaultLinks: AgencyLandingNavLink[] = [
-  { label: "About us", href: "/about" },
-  { label: "Services", href: "#services" },
-  { label: "Projects", href: "#projects" },
-  { label: "Team", href: "#team" },
-  { label: "FAQ", href: "#faq" },
-]
+const linkClass =
+  "rounded-full px-3 py-2 text-sm text-muted-foreground transition-colors outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-agency-accent/40 aria-[current=page]:font-medium aria-[current=page]:text-foreground"
 
 /**
- * A floating header bar. Below `md` the links move into a disclosure menu
- * that closes on Escape (returning focus to the toggle) or when a link is chosen.
- * Pass `links` to point it at other pages, e.g. from the About page.
+ * A floating header bar with the site's pages. The "Pages" menu holds the
+ * rest; it opens on click, closes on Escape or a click outside, and returns
+ * focus to its button. Below `md` everything moves into one disclosure menu.
  */
-export function AgencyLandingNavbar({ links = defaultLinks }: { links?: AgencyLandingNavLink[] }) {
+export function AgencyLandingNavbar() {
+  const site = useAgencySite()
   const [open, setOpen] = React.useState(false)
+  const [moreOpen, setMoreOpen] = React.useState(false)
   const toggleRef = React.useRef<HTMLButtonElement>(null)
+  const moreRef = React.useRef<HTMLButtonElement>(null)
+  const moreBoxRef = React.useRef<HTMLLIElement>(null)
   const menuId = React.useId()
+  const moreId = React.useId()
   const [scrolled, setScrolled] = React.useState(false)
 
   // A stronger shadow and a slimmer bar once the page has scrolled.
@@ -39,16 +42,29 @@ export function AgencyLandingNavbar({ links = defaultLinks }: { links?: AgencyLa
   }, [])
 
   React.useEffect(() => {
-    if (!open) return
+    if (!open && !moreOpen) return
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
+      if (event.key !== "Escape") return
+      if (moreOpen) {
+        setMoreOpen(false)
+        moreRef.current?.focus()
+      } else {
         setOpen(false)
         toggleRef.current?.focus()
       }
     }
+    function onPointerDown(event: PointerEvent) {
+      if (moreOpen && !moreBoxRef.current?.contains(event.target as Node)) setMoreOpen(false)
+    }
     document.addEventListener("keydown", onKeyDown)
-    return () => document.removeEventListener("keydown", onKeyDown)
-  }, [open])
+    document.addEventListener("pointerdown", onPointerDown)
+    return () => {
+      document.removeEventListener("keydown", onKeyDown)
+      document.removeEventListener("pointerdown", onPointerDown)
+    }
+  }, [open, moreOpen])
+
+  const moreCurrent = morePages.includes(site.page)
 
   return (
     <motion.header
@@ -67,7 +83,7 @@ export function AgencyLandingNavbar({ links = defaultLinks }: { links?: AgencyLa
       >
         <div className={cn("flex items-center gap-6 pr-2 pl-4 transition-[height] duration-500 sm:pl-5", scrolled ? "h-13" : "h-14")}>
           <a
-            href="#"
+            href={site.href("home")}
             aria-label="Arcwell home"
             className="rounded-full outline-none focus-visible:ring-3 focus-visible:ring-agency-accent/40"
           >
@@ -76,17 +92,52 @@ export function AgencyLandingNavbar({ links = defaultLinks }: { links?: AgencyLa
 
           <nav aria-label="Main" className="ml-auto hidden md:block">
             <ul className="flex items-center gap-1">
-              {links.map((link) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    aria-current={link.current ? "page" : undefined}
-                    className="rounded-full px-3 py-2 text-sm text-muted-foreground transition-colors outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-agency-accent/40 aria-[current=page]:font-medium aria-[current=page]:text-foreground"
-                  >
-                    {link.label}
+              {mainPages.map((page) => (
+                <li key={page}>
+                  <a href={site.href(page)} aria-current={site.page === page ? "page" : undefined} className={linkClass}>
+                    {agencyPages[page].label}
                   </a>
                 </li>
               ))}
+              <li ref={moreBoxRef} className="relative">
+                <button
+                  ref={moreRef}
+                  type="button"
+                  aria-expanded={moreOpen}
+                  aria-controls={moreId}
+                  onClick={() => setMoreOpen((value) => !value)}
+                  className={cn(linkClass, "inline-flex items-center gap-1", moreCurrent && "font-medium text-foreground")}
+                >
+                  Pages
+                  <ChevronDown aria-hidden="true" className={cn("size-3.5 transition-transform", moreOpen && "rotate-180")} />
+                </button>
+                <AnimatePresence>
+                  {moreOpen ? (
+                    <motion.ul
+                      id={moreId}
+                      initial={{ opacity: 0, y: -6, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -6, scale: 0.98 }}
+                      transition={{ duration: 0.18 }}
+                      className="absolute top-full right-0 mt-3 w-64 origin-top-right rounded-2xl bg-agency-card p-2 shadow-[0_24px_50px_-20px_rgb(0_0_0/0.35)] ring-1 ring-border/60"
+                    >
+                      {morePages.map((page) => (
+                        <li key={page}>
+                          <a
+                            href={site.href(page)}
+                            aria-current={site.page === page ? "page" : undefined}
+                            onClick={() => setMoreOpen(false)}
+                            className="block rounded-xl px-3 py-2.5 outline-none hover:bg-agency-surface focus-visible:ring-3 focus-visible:ring-agency-accent/40 aria-[current=page]:bg-agency-surface"
+                          >
+                            <span className="block text-sm font-medium">{agencyPages[page].label}</span>
+                            <span className="block text-xs text-muted-foreground">{agencyPages[page].description}</span>
+                          </a>
+                        </li>
+                      ))}
+                    </motion.ul>
+                  ) : null}
+                </AnimatePresence>
+              </li>
             </ul>
           </nav>
 
@@ -114,16 +165,16 @@ export function AgencyLandingNavbar({ links = defaultLinks }: { links?: AgencyLa
         className="mx-auto mt-2 max-w-6xl rounded-3xl bg-agency-card p-3 shadow-lg ring-1 ring-border/60 md:hidden"
       >
         <nav aria-label="Main">
-          <ul className="grid gap-1">
-            {links.map((link) => (
-              <li key={link.label}>
+          <ul className="grid grid-cols-2 gap-1">
+            {(["home", ...mainPages, ...morePages] as AgencyPage[]).map((page) => (
+              <li key={page}>
                 <a
-                  href={link.href}
-                  aria-current={link.current ? "page" : undefined}
+                  href={site.href(page)}
+                  aria-current={site.page === page ? "page" : undefined}
                   onClick={() => setOpen(false)}
-                  className="block rounded-2xl px-3 py-2.5 text-sm font-medium outline-none hover:bg-agency-surface focus-visible:ring-3 focus-visible:ring-agency-accent/40"
+                  className="block rounded-2xl px-3 py-2.5 text-sm font-medium outline-none hover:bg-agency-surface focus-visible:ring-3 focus-visible:ring-agency-accent/40 aria-[current=page]:bg-agency-surface"
                 >
-                  {link.label}
+                  {agencyPages[page].label}
                 </a>
               </li>
             ))}

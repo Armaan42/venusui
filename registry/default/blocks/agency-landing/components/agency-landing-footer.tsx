@@ -1,12 +1,39 @@
 import { AgencyLandingLogo } from "./agency-landing-logo"
+import { AgencyLink, type AgencyPage } from "./agency-site"
 
-const columns = [
-  { title: "Company", links: ["About us", "Team", "Careers"] },
-  { title: "Support", links: ["FAQ", "Process", "Contact"] },
-  { title: "Legal", links: ["Terms and conditions", "Privacy policy"] },
+/** Footer links: a page of the site, or a plain address for pages you add yourself. */
+type FooterLink = { label: string } & ({ to: AgencyPage; hash?: string } | { href: string })
+
+const columns: { title: string; links: FooterLink[] }[] = [
+  {
+    title: "Company",
+    links: [
+      { label: "About us", to: "about" },
+      { label: "Team", to: "team" },
+      { label: "Projects", to: "projects" },
+      { label: "Blog", to: "blog" },
+    ],
+  },
+  {
+    title: "Support",
+    links: [
+      { label: "Services", to: "services" },
+      { label: "Pricing", to: "pricing" },
+      { label: "FAQ", to: "faq" },
+      { label: "Contact", href: "#contact" },
+    ],
+  },
+  {
+    title: "Legal",
+    links: [
+      { label: "Terms and conditions", href: "#" },
+      { label: "Privacy policy", href: "#" },
+    ],
+  },
 ]
 
 const social = ["Instagram", "LinkedIn", "Newsletter"]
+const linkClass = "text-muted-foreground hover:text-foreground aria-[current=page]:text-foreground"
 
 export function AgencyLandingFooter() {
   return (
@@ -35,10 +62,16 @@ export function AgencyLandingFooter() {
             <h2 className="text-lg font-medium">{column.title}</h2>
             <ul className="mt-4 space-y-3 text-sm">
               {column.links.map((link) => (
-                <li key={link}>
-                  <a href="#" className="text-muted-foreground hover:text-foreground">
-                    {link}
-                  </a>
+                <li key={link.label}>
+                  {"to" in link ? (
+                    <AgencyLink to={link.to} hash={link.hash} className={linkClass}>
+                      {link.label}
+                    </AgencyLink>
+                  ) : (
+                    <a href={link.href} className={linkClass}>
+                      {link.label}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>

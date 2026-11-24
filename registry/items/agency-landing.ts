@@ -21,17 +21,20 @@ const files = [
   "-motion",
 ]
 
-/** The About page, the template's second page. */
+/** The About page and its sections. */
 const aboutFiles = ["", "-hero", "-mission", "-story", "-vision", "-team"]
+
+/** The shared shell, page links and header, and the other six pages. */
+const siteFiles = ["site", "shell", "page-header", "services", "projects", "blog", "team", "pricing", "faq"]
 
 export default defineItem({
   name: "agency-landing",
   type: "registry:block",
   title: "Agency Landing",
   description:
-    "A complete, animated two-page site for a digital agency. The home page has a hero with turning work cards, services, process, projects, results, team, reviews, FAQ and a project enquiry form; the About page has a live stat collage, mission, story, a client chat and the team.",
-  version: "0.3.0",
-  releasedAt: "2026-11-22",
+    "A complete, animated eight-page site for a digital agency: Home, About, Services, Projects, Blog, Team, Pricing and FAQ. Every page shares the navbar with a pages menu, the project enquiry form and the footer; the pages add a paginated project gallery, a filterable blog with a featured carousel, a plan comparison and a tabbed FAQ.",
+  version: "0.4.0",
+  releasedAt: "2026-11-24",
   categories: ["templates"],
   // Brand purple, page and card surfaces, and the client strip's scroll.
   cssVars: {
@@ -112,19 +115,25 @@ export default defineItem({
       type: "registry:component" as const,
     })),
     { path: "registry/default/blocks/agency-landing/components/agency-about-media.ts", type: "registry:component" },
+    ...siteFiles.map((name) => ({
+      path: `registry/default/blocks/agency-landing/components/agency-${name}.tsx`,
+      type: "registry:component" as const,
+    })),
   ],
   pageDocs: {
     props: [],
     extends:
-      "No props. `agency-landing.tsx` puts the sections in order; each section is its own `agency-landing-*.tsx` file with its copy inside.",
+      "No props. Each page is one component (`AgencyLanding`, `AgencyAbout`, `AgencyServices`, `AgencyProjects`, `AgencyBlog`, `AgencyTeam`, `AgencyPricing`, `AgencyFaq`) wrapped in the shared `AgencyShell`; home-page sections are their own `agency-landing-*.tsx` files with the copy inside.",
     requirements: [
       "`lucide-react` for icons and `motion` for the animations. The CLI installs both.",
       "React 19 and Tailwind CSS v4, with a `cn` helper at `@/lib/utils`. The CLI adds the template’s colours, keyframes and the FAQ animation to your `globals.css`.",
       "An internet connection for the sample photos, which load from a remote image CDN.",
     ],
     customization: [
-      "It is a two-page site. Render `<AgencyLanding />` from `app/page.tsx` and `<AgencyAbout />` from `app/about/page.tsx`. You can also render single sections, such as `<AgencyLandingServices />`, on other pages.",
-      "Both pages share the navbar, contact section, footer, colours and motion. Pass `links` to `<AgencyLanding />` or `<AgencyAbout />` to change the navbar links; mark the page you're on with `current: true`.",
+      "It is an eight-page site. Render each page from its own route: `<AgencyLanding />` from `app/page.tsx`, and `<AgencyAbout />`, `<AgencyServices />`, `<AgencyProjects />`, `<AgencyBlog />`, `<AgencyTeam />`, `<AgencyPricing />` and `<AgencyFaq />` from `app/about/page.tsx`, `app/services/page.tsx`, `app/projects/page.tsx`, `app/blog/page.tsx`, `app/team/page.tsx`, `app/pricing/page.tsx` and `app/faq/page.tsx`. You can also render single sections, such as `<AgencyLandingServices />`, on other pages.",
+      "Every page shares the navbar, the contact section, the footer, the colours and the motion through `AgencyShell` in `agency-shell.tsx`. Page names, menu descriptions and routes live in `agency-site.tsx`. If your routes differ (a base path, another language), wrap your layout in `<AgencySiteProvider href={(page, hash) => …}>` and every navbar and footer link follows.",
+      "The navbar shows About, Services, Projects and Blog, and tucks Team, Pricing and FAQ into a Pages menu. Change `mainPages` and `morePages` in `agency-landing-navbar.tsx` to move them.",
+      "Projects, blog posts, plans and questions are arrays at the top of `agency-projects.tsx`, `agency-blog.tsx`, `agency-pricing.tsx` and `agency-faq.tsx`. Load them from your CMS when you have one; the pagination, topic filter and tabs work from the arrays.",
       "The About page sections are the `agency-about-*.tsx` files. The mission paragraph brightens word by word as it scrolls past, and the client thread in `agency-about-vision.tsx` is a list of messages you can edit.",
       "Animations live in `agency-landing-motion.tsx`: `Reveal` and `RevealList` for scroll-in, `CountUp` for figures, `RevealWords` for the headline and `HeroWheel` for the turning, flipping cards. Tune the easing and timings there. If you render a section on its own, wrap it in `<AgencyLandingMotion>` so it follows reduced motion.",
       "The enquiry form in `agency-landing-cta.tsx` only pretends to send. Replace the body of `send()` with a call to your email service or form backend; the form already collects name, email, services, budget and message.",
@@ -137,14 +146,16 @@ export default defineItem({
       "Colours are `--agency-accent` (purple), `--agency-surface` (page), `--agency-card` (cards) and `--agency-muted` (secondary text, a little darker than your theme’s so it stays readable on the tinted page) in your `globals.css`, with dark mode values. Change them there.",
     ],
     accessibility: [
-      'The About page: the word-by-word mission is read out as one sentence, the chat thread\'s full text is always available to screen readers, and the navbar marks the current page with `aria-current="page"`.',
-      "One `h1` in the hero; every section is labelled by its own `h2`.",
+      'Every page has one `h1` in its header, and the navbar and footer mark the current page with `aria-current="page"`. The Pages menu opens from a button, closes on Escape or a click outside, and returns focus to the button.',
+      "Projects pagination marks the current page. The blog topic filter uses toggle buttons and announces how many articles match. The featured carousel stops moving while you hover or focus it, or if you prefer reduced motion. FAQ topics are tabs you can move between with the arrow keys, and each question is a button that says whether it is open.",
+      "The About page: the word-by-word mission is read out as one sentence, and the chat thread's full text is always available to screen readers.",
+      "Every section is labelled by its own `h2`.",
       "The navbar collapses into a disclosure menu on small screens that closes on Escape and returns focus to its toggle.",
       "The tilted cards and the artwork are decorative and hidden from screen readers; the services section lists the same things as text.",
       "Every animation follows the visitor’s reduced-motion setting: sections appear without moving, figures show their final value, and the strip, badge and card wheel stand still. The repeated half of the client strip is hidden from screen readers.",
       "Counting figures are hidden from screen readers while they count; the final value is always available as text.",
       "Star ratings are announced as “5 out of 5 stars”. Portraits have empty `alt` because the name is right next to them.",
-      "FAQ items are native `<details>` elements.",
+      "Home page FAQ items are native `<details>` elements.",
       "Process cards can be opened from the keyboard. The enquiry form uses visible labels, real checkboxes and radio buttons for the choices, and announces the thank-you message as a status.",
     ],
     troubleshooting: [
