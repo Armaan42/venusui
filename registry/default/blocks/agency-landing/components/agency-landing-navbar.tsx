@@ -12,7 +12,7 @@ import { AgencyLandingLogo } from "./agency-landing-logo"
 export type AgencyLandingNavLink = { label: string; href: string; /** Marks the page you're on. */ current?: boolean }
 
 const defaultLinks: AgencyLandingNavLink[] = [
-  { label: "About us", href: "#about" },
+  { label: "About us", href: "/about" },
   { label: "Services", href: "#services" },
   { label: "Projects", href: "#projects" },
   { label: "Team", href: "#team" },

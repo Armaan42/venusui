@@ -5,9 +5,9 @@ import { ArrowUp } from "lucide-react"
 import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react"
 
 import { cn } from "@/lib/utils"
-import { AgencyLandingEyebrow } from "@/registry/default/blocks/agency-landing/components/agency-landing-button"
-import { portrait } from "@/registry/default/blocks/agency-landing/components/agency-landing-media"
-import { Reveal } from "@/registry/default/blocks/agency-landing/components/agency-landing-motion"
+import { AgencyLandingEyebrow } from "./agency-landing-button"
+import { portrait } from "./agency-landing-media"
+import { Reveal } from "./agency-landing-motion"
 
 /** A real-feeling thread between a client and the studio. Made up. */
 const thread = [

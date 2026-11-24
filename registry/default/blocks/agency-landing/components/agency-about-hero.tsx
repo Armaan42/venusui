@@ -4,9 +4,9 @@ import { MousePointer2, TrendingUp } from "lucide-react"
 import { motion } from "motion/react"
 
 import { cn } from "@/lib/utils"
-import { AgencyLandingEyebrow } from "@/registry/default/blocks/agency-landing/components/agency-landing-button"
-import { portrait } from "@/registry/default/blocks/agency-landing/components/agency-landing-media"
-import { CountUp, Reveal, RevealWords } from "@/registry/default/blocks/agency-landing/components/agency-landing-motion"
+import { AgencyLandingEyebrow } from "./agency-landing-button"
+import { portrait } from "./agency-landing-media"
+import { CountUp, Reveal, RevealWords } from "./agency-landing-motion"
 
 import { photos } from "./agency-about-media"
 

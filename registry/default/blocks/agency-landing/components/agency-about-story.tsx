@@ -2,8 +2,8 @@
 
 import { motion } from "motion/react"
 
-import { AgencyLandingEyebrow } from "@/registry/default/blocks/agency-landing/components/agency-landing-button"
-import { Reveal, RevealItem, RevealList } from "@/registry/default/blocks/agency-landing/components/agency-landing-motion"
+import { AgencyLandingEyebrow } from "./agency-landing-button"
+import { Reveal, RevealItem, RevealList } from "./agency-landing-motion"
 
 /** The studio's story so far. Made up; replace with your own milestones. */
 const milestones = [

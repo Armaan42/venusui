@@ -21,13 +21,16 @@ const files = [
   "-motion",
 ]
 
+/** The About page, the template's second page. */
+const aboutFiles = ["", "-hero", "-mission", "-story", "-vision", "-team"]
+
 export default defineItem({
   name: "agency-landing",
   type: "registry:block",
   title: "Agency Landing",
   description:
-    "A complete, animated site for a digital agency: a hero with tilted work cards, about, services, process, projects, client results, team, reviews, FAQ and a contact section with a project enquiry form.",
-  version: "0.2.0",
+    "A complete, animated two-page site for a digital agency. The home page has a hero with turning work cards, services, process, projects, results, team, reviews, FAQ and a project enquiry form; the About page has a live stat collage, mission, story, a client chat and the team.",
+  version: "0.3.0",
   releasedAt: "2026-11-22",
   categories: ["templates"],
   // Brand purple, page and card surfaces, and the client strip's scroll.
@@ -40,6 +43,7 @@ export default defineItem({
       "animate-agency-wheel": "agency-wheel 140s linear infinite",
       "animate-agency-flip": "agency-flip 18s ease-in-out infinite",
       "animate-agency-drift": "agency-drift 14s ease-in-out infinite alternate",
+      "animate-agency-bob": "agency-bob 6s ease-in-out infinite",
     },
     light: {
       "agency-accent": "oklch(0.56 0.24 290)",
@@ -55,6 +59,11 @@ export default defineItem({
     },
   },
   css: {
+    // The floating cards on the About page drift up and down.
+    "@keyframes agency-bob": {
+      "0%, 100%": { transform: "translateY(0)" },
+      "50%": { transform: "translateY(-10px)" },
+    },
     "@keyframes agency-marquee": {
       from: { transform: "translateX(0)" },
       to: { transform: "translateX(-50%)" },
@@ -98,6 +107,11 @@ export default defineItem({
       path: "registry/default/blocks/agency-landing/components/agency-landing-media.ts",
       type: "registry:component",
     },
+    ...aboutFiles.map((suffix) => ({
+      path: `registry/default/blocks/agency-landing/components/agency-about${suffix}.tsx`,
+      type: "registry:component" as const,
+    })),
+    { path: "registry/default/blocks/agency-landing/components/agency-about-media.ts", type: "registry:component" },
   ],
   pageDocs: {
     props: [],
@@ -109,7 +123,9 @@ export default defineItem({
       "An internet connection for the sample photos, which load from a remote image CDN.",
     ],
     customization: [
-      "Render `<AgencyLanding />` from `app/page.tsx`, or render single sections such as `<AgencyLandingServices />` on other pages.",
+      "It is a two-page site. Render `<AgencyLanding />` from `app/page.tsx` and `<AgencyAbout />` from `app/about/page.tsx`. You can also render single sections, such as `<AgencyLandingServices />`, on other pages.",
+      "Both pages share the navbar, contact section, footer, colours and motion. Pass `links` to `<AgencyLanding />` or `<AgencyAbout />` to change the navbar links; mark the page you're on with `current: true`.",
+      "The About page sections are the `agency-about-*.tsx` files. The mission paragraph brightens word by word as it scrolls past, and the client thread in `agency-about-vision.tsx` is a list of messages you can edit.",
       "Animations live in `agency-landing-motion.tsx`: `Reveal` and `RevealList` for scroll-in, `CountUp` for figures, `RevealWords` for the headline and `HeroWheel` for the turning, flipping cards. Tune the easing and timings there. If you render a section on its own, wrap it in `<AgencyLandingMotion>` so it follows reduced motion.",
       "The enquiry form in `agency-landing-cta.tsx` only pretends to send. Replace the body of `send()` with a call to your email service or form backend; the form already collects name, email, services, budget and message.",
       "Hover effects: service cards swap their artwork for what's included, the open process card follows the pointer, and the team card under the pointer comes forward while the others blur. On touch screens these follow the card in the middle of the screen or the one you tap.",
@@ -121,6 +137,7 @@ export default defineItem({
       "Colours are `--agency-accent` (purple), `--agency-surface` (page), `--agency-card` (cards) and `--agency-muted` (secondary text, a little darker than your theme’s so it stays readable on the tinted page) in your `globals.css`, with dark mode values. Change them there.",
     ],
     accessibility: [
+      'The About page: the word-by-word mission is read out as one sentence, the chat thread\'s full text is always available to screen readers, and the navbar marks the current page with `aria-current="page"`.',
       "One `h1` in the hero; every section is labelled by its own `h2`.",
       "The navbar collapses into a disclosure menu on small screens that closes on Escape and returns focus to its toggle.",
       "The tilted cards and the artwork are decorative and hidden from screen readers; the services section lists the same things as text.",
