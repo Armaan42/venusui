@@ -16,7 +16,7 @@ export function ThemeMenu({ className }: { className?: string }) {
           <Palette aria-hidden="true" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="end" className="w-80 p-4">
+      <PopoverContent align="end" className="max-h-[min(80vh,44rem)] w-80 overflow-y-auto p-4">
         <div className="mb-4 flex items-baseline justify-between">
           <p className="text-sm font-medium">Theme</p>
           <Link href="/themes" className="text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline">

@@ -520,6 +520,12 @@
   --radius: 0.625rem;
 }
 
+:root[data-radius="0.75"],
+[data-radius="0.75"] .light,
+[data-radius="0.75"] .dark {
+  --radius: 0.75rem;
+}
+
 :root[data-radius="1"],
 [data-radius="1"] .light,
 [data-radius="1"] .dark {
