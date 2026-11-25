@@ -114,6 +114,7 @@ import item_holo_card from "./items/holo-card.ts"
 import item_hourglass from "./items/hourglass.ts"
 import item_image_compare from "./items/image-compare.ts"
 import item_instant_camera from "./items/instant-camera.ts"
+import item_interaction_shelf from "./items/interaction-shelf.ts"
 import item_invitation_01 from "./items/invitation-01.ts"
 import item_kbd from "./items/kbd.ts"
 import item_keyboard from "./items/keyboard.ts"
@@ -381,6 +382,7 @@ export const itemDefinitions: RegistryItemDefinition[] = [
   item_hourglass,
   item_image_compare,
   item_instant_camera,
+  item_interaction_shelf,
   item_invitation_01,
   item_kbd,
   item_keyboard,

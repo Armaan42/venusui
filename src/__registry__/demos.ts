@@ -116,6 +116,7 @@ export const demos: Record<string, DemoLoader> = {
   "hourglass": () => import("@/registry/default/examples/hourglass-demo"),
   "image-compare": () => import("@/registry/default/examples/image-compare-demo"),
   "instant-camera": () => import("@/registry/default/examples/instant-camera-demo"),
+  "interaction-shelf": () => import("@/registry/default/examples/interaction-shelf-demo"),
   "invitation-01": () => import("@/registry/default/examples/invitation-01-demo"),
   "kbd": () => import("@/registry/default/examples/kbd-demo"),
   "keyboard": () => import("@/registry/default/examples/keyboard-demo"),
