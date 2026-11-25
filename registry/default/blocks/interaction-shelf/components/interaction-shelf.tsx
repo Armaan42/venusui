@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils"
 
 import { OpenBook } from "./interaction-shelf-book"
 import { books, type DemoId } from "./interaction-shelf-data"
-import { ShelfScene, type ShelfSceneHandle } from "./interaction-shelf-scene"
+import { ShelfScene, type ScreenRect, type ShelfSceneHandle } from "./interaction-shelf-scene"
 
 /**
  * Night Shelf: an interaction library in a small 3D room. Pull the lamp cord
@@ -21,6 +21,9 @@ export function InteractionShelf() {
   const [ready, setReady] = React.useState(false)
   const [lampOn, setLampOn] = React.useState(false)
   const [openId, setOpenId] = React.useState<DemoId | null>(null)
+  const [from, setFrom] = React.useState<ScreenRect | null>(null)
+  // True from the moment a book is closed until it's back on the shelf, so the wall text waits for it.
+  const [returning, setReturning] = React.useState(false)
   const [hover, setHover] = React.useState<{ id: DemoId; x: number; y: number } | null>(null)
   const [panel, setPanel] = React.useState<"about" | "contact" | null>(null)
   const busy = React.useRef(false)
@@ -34,7 +37,8 @@ export function InteractionShelf() {
       returnFocus.current = document.activeElement as HTMLElement | null
       setHover(null)
       setPanel(null)
-      await handle.current?.open(id)
+      const rect = (await handle.current?.open(id)) ?? null
+      setFrom(rect)
       setOpenId(id)
       busy.current = false
     },
@@ -43,6 +47,7 @@ export function InteractionShelf() {
 
   const close = React.useCallback(() => {
     closing.current = openId
+    setReturning(true)
     setOpenId(null)
   }, [openId])
 
@@ -50,6 +55,7 @@ export function InteractionShelf() {
     const id = closing.current
     closing.current = null
     if (id) await handle.current?.close(id)
+    setReturning(false)
     returnFocus.current?.focus?.()
   }
 
@@ -108,7 +114,7 @@ export function InteractionShelf() {
         <div
           className={cn(
             "pointer-events-none absolute top-16 left-4 transition-opacity duration-500 md:top-[15%] md:right-[6%] md:left-auto",
-            book && "opacity-0",
+            (book || returning) && "opacity-0",
           )}
         >
           <h1 className="text-4xl leading-[0.95] font-medium tracking-tight sm:text-6xl">
@@ -223,7 +229,7 @@ export function InteractionShelf() {
         </AnimatePresence>
 
         <AnimatePresence onExitComplete={() => void afterClose()}>
-          {book ? <OpenBook key={book.id} book={book} onClose={close} /> : null}
+          {book ? <OpenBook key={book.id} book={book} from={from} onClose={close} /> : null}
         </AnimatePresence>
       </div>
     </MotionConfig>

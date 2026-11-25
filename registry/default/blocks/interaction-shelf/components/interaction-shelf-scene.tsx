@@ -17,10 +17,17 @@ import {
   spineCanvas,
 } from "./interaction-shelf-textures"
 
+/** Where a book sits on screen, in viewport pixels. */
+export type ScreenRect = { x: number; y: number; width: number; height: number }
+
 export type ShelfSceneHandle = {
-  /** Pulls a book off the shelf and brings it to the middle of the screen, facing you. */
-  open: (id: DemoId) => Promise<void>
-  /** Puts the book back on the shelf. */
+  /**
+   * Eases a book off the shelf and turns its cover to you, then resolves with
+   * where the cover sits on screen, so the open book on the page can grow out
+   * of exactly that spot. The room stops rendering while the book is open.
+   */
+  open: (id: DemoId) => Promise<ScreenRect | null>
+  /** Wakes the room and slides the book back onto the shelf. */
   close: (id: DemoId) => Promise<void>
 }
 
@@ -505,48 +512,75 @@ export function ShelfScene({ handleRef, lampOn, onLampToggle, onPick, onHover, o
       renderer.domElement.addEventListener("click", onClick)
 
       // ---------------------------------------------------------------- open and close
+      // The cover's outline on screen, from the book's bounding box.
+      const screenRect = (mesh: THREE_NS.Mesh): ScreenRect => {
+        const bounds = new THREE.Box3().setFromObject(mesh)
+        const canvasRect = renderer.domElement.getBoundingClientRect()
+        let minX = Infinity
+        let minY = Infinity
+        let maxX = -Infinity
+        let maxY = -Infinity
+        for (const x of [bounds.min.x, bounds.max.x])
+          for (const y of [bounds.min.y, bounds.max.y])
+            for (const z of [bounds.min.z, bounds.max.z]) {
+              const v = new THREE.Vector3(x, y, z).project(camera)
+              const px = canvasRect.left + ((v.x + 1) / 2) * canvasRect.width
+              const py = canvasRect.top + ((1 - v.y) / 2) * canvasRect.height
+              minX = Math.min(minX, px)
+              maxX = Math.max(maxX, px)
+              minY = Math.min(minY, py)
+              maxY = Math.max(maxY, py)
+            }
+        return { x: minX, y: minY, width: maxX - minX, height: maxY - minY }
+      }
+
       handleRef.current = {
         open: (id) =>
-          new Promise<void>((resolve) => {
+          new Promise<ScreenRect | null>((resolve) => {
             const mesh = live.get(id)
-            if (!mesh) return resolve()
+            if (!mesh) return resolve(null)
             busy = true
             setHover(null)
             renderer.domElement.style.cursor = "default"
             const home = mesh.userData.home as THREE_NS.Vector3
-            const forward = new THREE.Vector3()
-            camera.getWorldDirection(forward)
-            const target = camera.position.clone().add(forward.multiplyScalar(3.2))
+            // One continuous move: out of the row, then the cover turns towards you.
             gsap
               .timeline({
+                defaults: { ease: "power3.inOut" },
                 onComplete: () => {
-                  // The open book on the page takes over from here.
-                  mesh.visible = false
-                  resolve()
+                  resolve(screenRect(mesh))
+                  // The page's open book grows out of this spot; hide this one once it's covered, then rest the room.
+                  window.setTimeout(
+                    () => {
+                      mesh.visible = false
+                      sleep()
+                    },
+                    reduce ? 0 : 220,
+                  )
                 },
               })
-              .to(mesh.position, { z: home.z + 0.42, duration: T(0.35), ease: "power2.out" })
-              .to(mesh.position, { x: target.x, y: target.y, z: target.z, duration: T(0.7), ease: "power3.inOut" })
-              .to(mesh.rotation, { y: -Math.PI / 2, x: 0.05, duration: T(0.7), ease: "power3.inOut" }, "<")
-              .to(mesh.scale, { x: 2.4, y: 2.4, z: 2.4, duration: T(0.7), ease: "power3.inOut" }, "<")
+              .to(mesh.position, { z: home.z + 0.55, y: home.y + 0.05, duration: T(0.45) })
+              .to(mesh.rotation, { y: -Math.PI / 2, duration: T(0.5) }, T(0.2))
+              .to(mesh.scale, { x: 1.12, y: 1.12, z: 1.12, duration: T(0.5) }, T(0.2))
           }),
         close: (id) =>
           new Promise<void>((resolve) => {
             const mesh = live.get(id)
             if (!mesh) return resolve()
             const home = mesh.userData.home as THREE_NS.Vector3
+            wake()
             mesh.visible = true
             gsap
               .timeline({
+                defaults: { ease: "power3.inOut" },
                 onComplete: () => {
                   busy = false
                   resolve()
                 },
               })
-              .to(mesh.position, { x: home.x, y: home.y, z: home.z + 0.42, duration: T(0.65), ease: "power3.inOut" })
-              .to(mesh.rotation, { y: 0, x: 0, duration: T(0.65), ease: "power3.inOut" }, "<")
-              .to(mesh.scale, { x: 1, y: 1, z: 1, duration: T(0.65), ease: "power3.inOut" }, "<")
-              .to(mesh.position, { z: home.z, duration: T(0.35), ease: "power2.inOut" })
+              .to(mesh.rotation, { y: 0, duration: T(0.5) })
+              .to(mesh.scale, { x: 1, y: 1, z: 1, duration: T(0.5) }, "<")
+              .to(mesh.position, { z: home.z, y: home.y, duration: T(0.45) }, T(0.3))
           }),
       }
 
@@ -566,6 +600,19 @@ export function ShelfScene({ handleRef, lampOn, onLampToggle, onPick, onHover, o
 
       const sway = { x: 0, y: 0 }
       let frame = 0
+      let sleeping = false
+      // While a book is open the room rests; data-resting marks it, which also helps when debugging.
+      function sleep() {
+        sleeping = true
+        host!.dataset.resting = "true"
+      }
+      function wake() {
+        if (!sleeping) return
+        sleeping = false
+        delete host!.dataset.resting
+        cancelAnimationFrame(frame)
+        if (visible && !document.hidden) frame = requestAnimationFrame(tick)
+      }
       let visible = true
       let lastSecond = -1
       const tick = (now: number) => {
@@ -588,17 +635,17 @@ export function ShelfScene({ handleRef, lampOn, onLampToggle, onPick, onHover, o
         }
         camera.updateProjectionMatrix()
         renderer.render(scene, camera)
-        if (visible && !document.hidden) frame = requestAnimationFrame(tick)
+        if (visible && !document.hidden && !sleeping) frame = requestAnimationFrame(tick)
       }
       const io = new IntersectionObserver(([entry]) => {
         visible = entry.isIntersecting
         cancelAnimationFrame(frame)
-        if (visible) frame = requestAnimationFrame(tick)
+        if (visible && !sleeping) frame = requestAnimationFrame(tick)
       })
       io.observe(host)
       const onVisibility = () => {
         cancelAnimationFrame(frame)
-        if (visible && !document.hidden) frame = requestAnimationFrame(tick)
+        if (visible && !document.hidden && !sleeping) frame = requestAnimationFrame(tick)
       }
       document.addEventListener("visibilitychange", onVisibility)
       frame = requestAnimationFrame(tick)
