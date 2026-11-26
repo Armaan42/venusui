@@ -239,15 +239,15 @@ export function AgencyServices() {
             {industries.map((industry) => (
               <RevealItem
                 key={industry.title}
-                className="group rounded-3xl bg-agency-card p-7 ring-1 ring-border/60 transition-[translate,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-[0_24px_50px_-28px_rgb(0_0_0/0.4)]"
+                className="group flex flex-col rounded-3xl bg-agency-card p-7 ring-1 ring-border/60 transition-[translate,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-[0_24px_50px_-28px_rgb(0_0_0/0.4)]"
               >
                 <industry.icon
                   aria-hidden="true"
                   className="size-8 text-agency-accent transition-transform duration-500 group-hover:scale-110"
                 />
                 <h3 className="mt-6 text-xl font-medium">{industry.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-muted-foreground">{industry.text}</p>
-                <AgencyLandingButton href="#contact" variant="secondary" className="mt-6 h-10 [&>span]:size-8">
+                <p className="mt-2 mb-6 text-sm leading-6 text-muted-foreground">{industry.text}</p>
+                <AgencyLandingButton href="#contact" variant="secondary" className="mt-auto h-10 self-start [&>span]:size-8">
                   <Sparkles aria-hidden="true" className="-ml-1 size-4 text-agency-accent" />
                   See how we help
                 </AgencyLandingButton>

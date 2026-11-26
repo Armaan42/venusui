@@ -94,11 +94,9 @@ export function AgencyTeam() {
                   loading="lazy"
                   className="aspect-[4/5] w-full rounded-2xl object-cover transition-transform duration-700 ease-out group-hover:scale-105 group-focus-within:scale-105 group-data-active:scale-105"
                 />
-                {/* The name card slides up on hover, focus, or when the card reaches the middle of a phone screen. */}
-                <div className="absolute inset-x-4 bottom-4 translate-y-[calc(100%+1.5rem)] rounded-2xl bg-agency-card/95 p-4 text-center shadow-lg backdrop-blur transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0 group-focus-within:translate-y-0 group-data-active:translate-y-0 motion-reduce:transition-none">
-                  <p className="font-medium">{person.name}</p>
-                  <p className="text-xs text-muted-foreground">{person.role}</p>
-                  <div className="mt-3 flex justify-center gap-2">
+                {/* The contact links slide up on hover, focus, or when the card reaches the middle of a phone screen. */}
+                <div className="absolute inset-x-0 bottom-5 flex translate-y-[calc(100%+1.5rem)] justify-center transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0 group-focus-within:translate-y-0 group-data-active:translate-y-0 motion-reduce:transition-none">
+                  <div className="flex gap-2 rounded-full bg-agency-card/95 p-1.5 shadow-lg backdrop-blur">
                     <a
                       href="#"
                       aria-label={`Email ${person.name}`}
@@ -116,8 +114,11 @@ export function AgencyTeam() {
                   </div>
                 </div>
               </div>
-              {/* Always visible below the photo too, so nobody has to hover to read a name. */}
-              <p className="mt-3 px-1 text-sm font-medium sm:hidden">{person.name}</p>
+              {/* Name and role are always visible, so nobody has to hover to find out who someone is. */}
+              <div className="mt-3 px-1 sm:mt-4">
+                <p className="text-sm font-medium sm:text-lg">{person.name}</p>
+                <p className="text-xs text-muted-foreground sm:text-sm">{person.role}</p>
+              </div>
             </RevealItem>
           ))}
         </RevealList>
@@ -231,7 +232,7 @@ export function AgencyTeam() {
             </RevealList>
           </div>
           <Reveal delay={0.1} className="relative mx-auto w-full max-w-md">
-            <div aria-hidden="true" className="absolute inset-x-6 bottom-0 top-16 rounded-[2rem] bg-agency-accent" />
+            <div aria-hidden="true" className="absolute inset-x-0 bottom-0 top-16 rounded-[2rem] bg-agency-accent" />
             <img
               src={portrait("1507003211169-0a1dd7228f2d", 900)}
               alt="Mateo Silva, Arcwell's founder"

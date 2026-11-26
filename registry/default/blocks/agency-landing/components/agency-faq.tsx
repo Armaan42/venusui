@@ -92,7 +92,7 @@ export function AgencyFaq() {
           eyebrow="FAQ"
           title="Questions about"
           muted="working with Arcwell"
-          lead="Our process, timelines, retainers and what you own at the end. Can't find your question? Ask us below and we'll reply within one working day."
+          lead="Our process, timelines, retainers and what you own at the end. Can't find your question? Ask us below and we'll reply within two working days."
         />
 
         <div className="mx-auto mt-14 max-w-4xl px-4 sm:px-6">
