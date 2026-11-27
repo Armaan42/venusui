@@ -71,7 +71,9 @@ function NixieTubes({ value, label, className, ...props }: NixieTubesProps) {
     <div
       data-slot="nixie-tubes"
       role={value === undefined ? "timer" : undefined}
-      className={cn("relative inline-flex max-w-full items-end gap-1 overflow-x-auto rounded-2xl bg-linear-to-b from-neutral-900 to-black p-4 pb-3 shadow-[0_18px_30px_-16px_rgb(0_0_0/0.8),inset_0_1px_0_rgb(255_255_255/0.1)] sm:gap-2", className)}
+      // In a narrow space the tubes scroll sideways, so keyboard users need to reach the row too.
+      tabIndex={0}
+      className={cn("relative inline-flex max-w-full items-end gap-1 overflow-x-auto rounded-2xl outline-none focus-visible:ring-3 focus-visible:ring-orange-300/60 bg-linear-to-b from-neutral-900 to-black p-4 pb-3 shadow-[0_18px_30px_-16px_rgb(0_0_0/0.8),inset_0_1px_0_rgb(255_255_255/0.1)] sm:gap-2", className)}
       {...props}
     >
       <span className="sr-only">{spoken}</span>
