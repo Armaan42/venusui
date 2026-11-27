@@ -54,6 +54,7 @@ import item_cta_05 from "./items/cta-05.ts"
 import item_cube_3d from "./items/cube-3d.ts"
 import item_dartboard from "./items/dartboard.ts"
 import item_deck_of_cards from "./items/deck-of-cards.ts"
+import item_deck_slider from "./items/deck-slider.ts"
 import item_delete_account_01 from "./items/delete-account-01.ts"
 import item_depth_card from "./items/depth-card.ts"
 import item_destinations_01 from "./items/destinations-01.ts"
@@ -77,9 +78,11 @@ import item_features_06 from "./items/features-06.ts"
 import item_features_07 from "./items/features-07.ts"
 import item_fidget_spinner from "./items/fidget-spinner.ts"
 import item_film_strip from "./items/film-strip.ts"
+import item_flick_cards from "./items/flick-cards.ts"
 import item_flip_book from "./items/flip-book.ts"
 import item_flip_card from "./items/flip-card.ts"
 import item_floating_label_input from "./items/floating-label-input.ts"
+import item_focus_grid from "./items/focus-grid.ts"
 import item_focus_timer_01 from "./items/focus-timer-01.ts"
 import item_folding_map from "./items/folding-map.ts"
 import item_footer_01 from "./items/footer-01.ts"
@@ -91,6 +94,7 @@ import item_galton_board from "./items/galton-board.ts"
 import item_game_night_01 from "./items/game-night-01.ts"
 import item_gift_box from "./items/gift-box.ts"
 import item_giveaway_01 from "./items/giveaway-01.ts"
+import item_glass_surface from "./items/glass-surface.ts"
 import item_glow_border_button from "./items/glow-border-button.ts"
 import item_glow_grid from "./items/glow-grid.ts"
 import item_gradient_text from "./items/gradient-text.ts"
@@ -113,6 +117,7 @@ import item_hero_13 from "./items/hero-13.ts"
 import item_holo_card from "./items/holo-card.ts"
 import item_hourglass from "./items/hourglass.ts"
 import item_image_compare from "./items/image-compare.ts"
+import item_infinite_grid from "./items/infinite-grid.ts"
 import item_instant_camera from "./items/instant-camera.ts"
 import item_interaction_shelf from "./items/interaction-shelf.ts"
 import item_invitation_01 from "./items/invitation-01.ts"
@@ -185,6 +190,7 @@ import item_product_01 from "./items/product-01.ts"
 import item_product_zoom_01 from "./items/product-zoom-01.ts"
 import item_progress_ring from "./items/progress-ring.ts"
 import item_pull_cord_lamp from "./items/pull-cord-lamp.ts"
+import item_radial_slider from "./items/radial-slider.ts"
 import item_radio_station_01 from "./items/radio-station-01.ts"
 import item_radio_tuner from "./items/radio-tuner.ts"
 import item_rating from "./items/rating.ts"
@@ -210,6 +216,7 @@ import item_scroll_progress from "./items/scroll-progress.ts"
 import item_segmented_control from "./items/segmented-control.ts"
 import item_service_bell from "./items/service-bell.ts"
 import item_shimmer_button from "./items/shimmer-button.ts"
+import item_showreel_player from "./items/showreel-player.ts"
 import item_signature_pad from "./items/signature-pad.ts"
 import item_size_guide_01 from "./items/size-guide-01.ts"
 import item_skeleton_shimmer from "./items/skeleton-shimmer.ts"
@@ -322,6 +329,7 @@ export const itemDefinitions: RegistryItemDefinition[] = [
   item_cube_3d,
   item_dartboard,
   item_deck_of_cards,
+  item_deck_slider,
   item_delete_account_01,
   item_depth_card,
   item_destinations_01,
@@ -345,9 +353,11 @@ export const itemDefinitions: RegistryItemDefinition[] = [
   item_features_07,
   item_fidget_spinner,
   item_film_strip,
+  item_flick_cards,
   item_flip_book,
   item_flip_card,
   item_floating_label_input,
+  item_focus_grid,
   item_focus_timer_01,
   item_folding_map,
   item_footer_01,
@@ -359,6 +369,7 @@ export const itemDefinitions: RegistryItemDefinition[] = [
   item_game_night_01,
   item_gift_box,
   item_giveaway_01,
+  item_glass_surface,
   item_glow_border_button,
   item_glow_grid,
   item_gradient_text,
@@ -381,6 +392,7 @@ export const itemDefinitions: RegistryItemDefinition[] = [
   item_holo_card,
   item_hourglass,
   item_image_compare,
+  item_infinite_grid,
   item_instant_camera,
   item_interaction_shelf,
   item_invitation_01,
@@ -453,6 +465,7 @@ export const itemDefinitions: RegistryItemDefinition[] = [
   item_product_zoom_01,
   item_progress_ring,
   item_pull_cord_lamp,
+  item_radial_slider,
   item_radio_station_01,
   item_radio_tuner,
   item_rating,
@@ -478,6 +491,7 @@ export const itemDefinitions: RegistryItemDefinition[] = [
   item_segmented_control,
   item_service_bell,
   item_shimmer_button,
+  item_showreel_player,
   item_signature_pad,
   item_size_guide_01,
   item_skeleton_shimmer,
