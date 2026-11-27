@@ -5,7 +5,7 @@ export default defineItem({
   "type": "registry:ui",
   "title": "Nixie Tubes",
   "description": "Glowing nixie tubes showing a number or a live clock, each tube holding all ten digits.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "releasedAt": "2026-11-20",
   "categories": [
     "data-display",

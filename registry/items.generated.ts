@@ -7,6 +7,7 @@ import item_agency_landing from "./items/agency-landing.ts"
 import item_analog_clock from "./items/analog-clock.ts"
 import item_animated_card from "./items/animated-card.ts"
 import item_animated_tabs from "./items/animated-tabs.ts"
+import item_announcement_bar from "./items/announcement-bar.ts"
 import item_approvals_01 from "./items/approvals-01.ts"
 import item_aquarium from "./items/aquarium.ts"
 import item_arc_globe from "./items/arc-globe.ts"
@@ -44,6 +45,7 @@ import item_compose_refs from "./items/compose-refs.ts"
 import item_contact_01 from "./items/contact-01.ts"
 import item_copy_button from "./items/copy-button.ts"
 import item_corkboard from "./items/corkboard.ts"
+import item_countdown_timer from "./items/countdown-timer.ts"
 import item_credit_01 from "./items/credit-01.ts"
 import item_credit_card_form from "./items/credit-card-form.ts"
 import item_cta_01 from "./items/cta-01.ts"
@@ -117,7 +119,9 @@ import item_hero_13 from "./items/hero-13.ts"
 import item_holo_card from "./items/holo-card.ts"
 import item_hourglass from "./items/hourglass.ts"
 import item_image_compare from "./items/image-compare.ts"
+import item_image_parallax from "./items/image-parallax.ts"
 import item_infinite_grid from "./items/infinite-grid.ts"
+import item_ink_reveal from "./items/ink-reveal.ts"
 import item_instant_camera from "./items/instant-camera.ts"
 import item_interaction_shelf from "./items/interaction-shelf.ts"
 import item_invitation_01 from "./items/invitation-01.ts"
@@ -167,6 +171,7 @@ import item_orbiting_circles from "./items/orbiting-circles.ts"
 import item_order_01 from "./items/order-01.ts"
 import item_oscilloscope from "./items/oscilloscope.ts"
 import item_otp_input from "./items/otp-input.ts"
+import item_page_wipe from "./items/page-wipe.ts"
 import item_pager from "./items/pager.ts"
 import item_paint_swatch_fan from "./items/paint-swatch-fan.ts"
 import item_paper_shredder from "./items/paper-shredder.ts"
@@ -179,6 +184,7 @@ import item_photo_folder from "./items/photo-folder.ts"
 import item_photo_stack from "./items/photo-stack.ts"
 import item_piano from "./items/piano.ts"
 import item_piggy_bank from "./items/piggy-bank.ts"
+import item_pixel_image_trail from "./items/pixel-image-trail.ts"
 import item_podcast_01 from "./items/podcast-01.ts"
 import item_portfolio_01 from "./items/portfolio-01.ts"
 import item_postage_stamp from "./items/postage-stamp.ts"
@@ -193,6 +199,7 @@ import item_pull_cord_lamp from "./items/pull-cord-lamp.ts"
 import item_radial_slider from "./items/radial-slider.ts"
 import item_radio_station_01 from "./items/radio-station-01.ts"
 import item_radio_tuner from "./items/radio-tuner.ts"
+import item_range_slider from "./items/range-slider.ts"
 import item_rating from "./items/rating.ts"
 import item_receipt_printer from "./items/receipt-printer.ts"
 import item_recipe_01 from "./items/recipe-01.ts"
@@ -236,6 +243,7 @@ import item_stats_02 from "./items/stats-02.ts"
 import item_status_dot from "./items/status-dot.ts"
 import item_stepper from "./items/stepper.ts"
 import item_sticky_notes from "./items/sticky-notes.ts"
+import item_sticky_showcase from "./items/sticky-showcase.ts"
 import item_store_01 from "./items/store-01.ts"
 import item_sundial from "./items/sundial.ts"
 import item_tag_input from "./items/tag-input.ts"
@@ -274,6 +282,7 @@ import item_wireframe_orb from "./items/wireframe-orb.ts"
 import item_world_clock from "./items/world-clock.ts"
 import item_zen_garden from "./items/zen-garden.ts"
 import item_zoetrope from "./items/zoetrope.ts"
+import item_zoom_lightbox from "./items/zoom-lightbox.ts"
 
 export const itemDefinitions: RegistryItemDefinition[] = [
   item_abacus,
@@ -282,6 +291,7 @@ export const itemDefinitions: RegistryItemDefinition[] = [
   item_analog_clock,
   item_animated_card,
   item_animated_tabs,
+  item_announcement_bar,
   item_approvals_01,
   item_aquarium,
   item_arc_globe,
@@ -319,6 +329,7 @@ export const itemDefinitions: RegistryItemDefinition[] = [
   item_contact_01,
   item_copy_button,
   item_corkboard,
+  item_countdown_timer,
   item_credit_01,
   item_credit_card_form,
   item_cta_01,
@@ -392,7 +403,9 @@ export const itemDefinitions: RegistryItemDefinition[] = [
   item_holo_card,
   item_hourglass,
   item_image_compare,
+  item_image_parallax,
   item_infinite_grid,
+  item_ink_reveal,
   item_instant_camera,
   item_interaction_shelf,
   item_invitation_01,
@@ -442,6 +455,7 @@ export const itemDefinitions: RegistryItemDefinition[] = [
   item_order_01,
   item_oscilloscope,
   item_otp_input,
+  item_page_wipe,
   item_pager,
   item_paint_swatch_fan,
   item_paper_shredder,
@@ -454,6 +468,7 @@ export const itemDefinitions: RegistryItemDefinition[] = [
   item_photo_stack,
   item_piano,
   item_piggy_bank,
+  item_pixel_image_trail,
   item_podcast_01,
   item_portfolio_01,
   item_postage_stamp,
@@ -468,6 +483,7 @@ export const itemDefinitions: RegistryItemDefinition[] = [
   item_radial_slider,
   item_radio_station_01,
   item_radio_tuner,
+  item_range_slider,
   item_rating,
   item_receipt_printer,
   item_recipe_01,
@@ -511,6 +527,7 @@ export const itemDefinitions: RegistryItemDefinition[] = [
   item_status_dot,
   item_stepper,
   item_sticky_notes,
+  item_sticky_showcase,
   item_store_01,
   item_sundial,
   item_tag_input,
@@ -549,4 +566,5 @@ export const itemDefinitions: RegistryItemDefinition[] = [
   item_world_clock,
   item_zen_garden,
   item_zoetrope,
+  item_zoom_lightbox,
 ]
