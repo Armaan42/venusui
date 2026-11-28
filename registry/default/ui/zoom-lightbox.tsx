@@ -249,7 +249,7 @@ function ZoomLightbox({ images, className, thumbnailClassName, ...props }: ZoomL
           else return
           event.preventDefault()
         }}
-        className="fixed inset-0 m-0 size-full max-h-none max-w-none overflow-hidden bg-transparent p-0 text-white backdrop:bg-transparent"
+        className="fixed inset-0 m-0 size-full max-h-none max-w-none overflow-clip bg-transparent p-0 text-white backdrop:bg-transparent"
       >
         {isOpen ? (
           <div className="relative flex size-full flex-col">
