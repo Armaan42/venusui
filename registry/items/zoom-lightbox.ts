@@ -5,7 +5,7 @@ export default defineItem({
   type: "registry:ui",
   title: "Zoom Lightbox",
   description: "A photo grid whose photos grow out of their thumbnails into a full-screen viewer you can zoom into and pan around.",
-  version: "0.1.0",
+  version: "0.1.1",
   releasedAt: "2026-11-28",
   categories: ["interactive", "data-display"],
   dependencies: ["lucide-react"],

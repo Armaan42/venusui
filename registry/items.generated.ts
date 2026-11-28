@@ -26,6 +26,7 @@ import item_booking_01 from "./items/booking-01.ts"
 import item_books_01 from "./items/books-01.ts"
 import item_bookshelf from "./items/bookshelf.ts"
 import item_border_beam from "./items/border-beam.ts"
+import item_bottom_sheet from "./items/bottom-sheet.ts"
 import item_bubble_wrap from "./items/bubble-wrap.ts"
 import item_call_support_01 from "./items/call-support-01.ts"
 import item_calm_break_01 from "./items/calm-break-01.ts"
@@ -40,6 +41,7 @@ import item_chat_thread from "./items/chat-thread.ts"
 import item_claw_machine from "./items/claw-machine.ts"
 import item_coffee_order_dial from "./items/coffee-order-dial.ts"
 import item_coin_flip from "./items/coin-flip.ts"
+import item_combobox from "./items/combobox.ts"
 import item_compass from "./items/compass.ts"
 import item_compose_refs from "./items/compose-refs.ts"
 import item_contact_01 from "./items/contact-01.ts"
@@ -55,6 +57,8 @@ import item_cta_04 from "./items/cta-04.ts"
 import item_cta_05 from "./items/cta-05.ts"
 import item_cube_3d from "./items/cube-3d.ts"
 import item_dartboard from "./items/dartboard.ts"
+import item_data_table from "./items/data-table.ts"
+import item_date_range_picker from "./items/date-range-picker.ts"
 import item_deck_of_cards from "./items/deck-of-cards.ts"
 import item_deck_slider from "./items/deck-slider.ts"
 import item_delete_account_01 from "./items/delete-account-01.ts"
@@ -79,6 +83,7 @@ import item_features_05 from "./items/features-05.ts"
 import item_features_06 from "./items/features-06.ts"
 import item_features_07 from "./items/features-07.ts"
 import item_fidget_spinner from "./items/fidget-spinner.ts"
+import item_file_dropzone from "./items/file-dropzone.ts"
 import item_film_strip from "./items/film-strip.ts"
 import item_flick_cards from "./items/flick-cards.ts"
 import item_flip_book from "./items/flip-book.ts"
@@ -125,6 +130,7 @@ import item_ink_reveal from "./items/ink-reveal.ts"
 import item_instant_camera from "./items/instant-camera.ts"
 import item_interaction_shelf from "./items/interaction-shelf.ts"
 import item_invitation_01 from "./items/invitation-01.ts"
+import item_kanban_board from "./items/kanban-board.ts"
 import item_kbd from "./items/kbd.ts"
 import item_keyboard from "./items/keyboard.ts"
 import item_kitchen_timer from "./items/kitchen-timer.ts"
@@ -233,6 +239,7 @@ import item_sliding_puzzle from "./items/sliding-puzzle.ts"
 import item_slot_machine from "./items/slot-machine.ts"
 import item_smart_home_01 from "./items/smart-home-01.ts"
 import item_snow_globe from "./items/snow-globe.ts"
+import item_sortable_list from "./items/sortable-list.ts"
 import item_sparkles from "./items/sparkles.ts"
 import item_spinner from "./items/spinner.ts"
 import item_spirit_level from "./items/spirit-level.ts"
@@ -261,6 +268,7 @@ import item_thermostat from "./items/thermostat.ts"
 import item_ticket_punch from "./items/ticket-punch.ts"
 import item_tilt_card from "./items/tilt-card.ts"
 import item_timeline from "./items/timeline.ts"
+import item_toast_stack from "./items/toast-stack.ts"
 import item_toggle_switch from "./items/toggle-switch.ts"
 import item_trip_01 from "./items/trip-01.ts"
 import item_typewriter_machine from "./items/typewriter-machine.ts"
@@ -310,6 +318,7 @@ export const itemDefinitions: RegistryItemDefinition[] = [
   item_books_01,
   item_bookshelf,
   item_border_beam,
+  item_bottom_sheet,
   item_bubble_wrap,
   item_call_support_01,
   item_calm_break_01,
@@ -324,6 +333,7 @@ export const itemDefinitions: RegistryItemDefinition[] = [
   item_claw_machine,
   item_coffee_order_dial,
   item_coin_flip,
+  item_combobox,
   item_compass,
   item_compose_refs,
   item_contact_01,
@@ -339,6 +349,8 @@ export const itemDefinitions: RegistryItemDefinition[] = [
   item_cta_05,
   item_cube_3d,
   item_dartboard,
+  item_data_table,
+  item_date_range_picker,
   item_deck_of_cards,
   item_deck_slider,
   item_delete_account_01,
@@ -363,6 +375,7 @@ export const itemDefinitions: RegistryItemDefinition[] = [
   item_features_06,
   item_features_07,
   item_fidget_spinner,
+  item_file_dropzone,
   item_film_strip,
   item_flick_cards,
   item_flip_book,
@@ -409,6 +422,7 @@ export const itemDefinitions: RegistryItemDefinition[] = [
   item_instant_camera,
   item_interaction_shelf,
   item_invitation_01,
+  item_kanban_board,
   item_kbd,
   item_keyboard,
   item_kitchen_timer,
@@ -517,6 +531,7 @@ export const itemDefinitions: RegistryItemDefinition[] = [
   item_slot_machine,
   item_smart_home_01,
   item_snow_globe,
+  item_sortable_list,
   item_sparkles,
   item_spinner,
   item_spirit_level,
@@ -545,6 +560,7 @@ export const itemDefinitions: RegistryItemDefinition[] = [
   item_ticket_punch,
   item_tilt_card,
   item_timeline,
+  item_toast_stack,
   item_toggle_switch,
   item_trip_01,
   item_typewriter_machine,
